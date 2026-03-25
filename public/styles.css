@@ -48,6 +48,7 @@ h1 { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 0.96; margin-bottom: 18px
 .status-panel { grid-column: span 4; }
 .table-panel { grid-column: span 8; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.panel-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
 .ghost-btn {
   border: 1px solid rgba(246, 198, 91, 0.35);
   background: rgba(246, 198, 91, 0.08);
@@ -57,13 +58,33 @@ h1 { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 0.96; margin-bottom: 18px
   cursor: pointer;
 }
 .ghost-btn:hover { background: rgba(246, 198, 91, 0.18); }
+.segmented {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+}
+.segmented-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.segmented-btn.active {
+  background: rgba(122, 211, 200, 0.18);
+  color: var(--text);
+}
 .chart-shell {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.015));
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 10px;
 }
-.chart-svg { width: 100%; height: 320px; display: block; }
+.chart-svg { width: 100%; height: 320px; display: block; touch-action: none; cursor: crosshair; user-select: none; }
+.chart-svg.is-panning { cursor: grabbing; }
 .chart-meta { margin-top: 12px; color: var(--muted); line-height: 1.6; font-size: 0.92rem; }
 .chart-grid { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; }
 .chart-grid-strong { stroke: rgba(255, 255, 255, 0.14); stroke-width: 1.2; }
@@ -75,6 +96,10 @@ h1 { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 0.96; margin-bottom: 18px
 .chart-point { stroke: rgba(8, 20, 31, 0.5); stroke-width: 0.6; }
 .chart-label { fill: #a4b9c7; font-size: 11px; font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
 .chart-empty { fill: #a4b9c7; font-size: 16px; text-anchor: middle; }
+.chart-crosshair { stroke: rgba(255,255,255,0.25); stroke-width: 1; stroke-dasharray: 4 4; }
+.chart-focus-dot { stroke: #08141f; stroke-width: 1.4; }
+.chart-tooltip-bg { fill: rgba(5, 13, 20, 0.92); stroke: rgba(255,255,255,0.12); stroke-width: 1; }
+.chart-tooltip-text { fill: #f7f4ea; font-size: 12px; font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
 .status-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 10px 0 16px; }
 .status-grid div, .table-wrap { background: var(--panel-soft); border: 1px solid var(--border); border-radius: 18px; }
 .status-grid div { padding: 18px; }
@@ -94,4 +119,5 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
   .hero-panels { grid-template-columns: 1fr; }
   .metric-card.main { grid-column: span 1; }
   .status-grid { grid-template-columns: 1fr; }
+  .panel-head { align-items: flex-start; flex-direction: column; }
 }

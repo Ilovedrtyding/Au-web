@@ -43,7 +43,10 @@
               <p class="panel-kicker">近 24 小时</p>
               <h2>分钟级价格变化趋势图</h2>
             </div>
-            <button id="manualRefresh" class="ghost-btn">立即刷新数据</button>
+            <div class="panel-actions">
+              <span class="hint">滚轮缩放，按住拖拽平移</span>
+              <button id="manualRefresh" class="ghost-btn">立即刷新数据</button>
+            </div>
           </div>
           <div class="chart-shell">
             <svg id="intradayChart" class="chart-svg" viewBox="0 0 960 360" preserveAspectRatio="none"></svg>
@@ -57,7 +60,13 @@
               <p class="panel-kicker">按月取点</p>
               <h2>历年月度趋势变化图</h2>
             </div>
-            <span class="hint">每个月保留一个代表点，并完整显示全部月份</span>
+            <div class="panel-actions">
+              <div class="segmented" id="monthlyRangeSwitcher">
+                <button class="segmented-btn active" data-range="1y">1 年</button>
+                <button class="segmented-btn" data-range="3y">3 年</button>
+                <button class="segmented-btn" data-range="all">全部</button>
+              </div>
+            </div>
           </div>
           <div class="chart-shell">
             <svg id="monthlyChart" class="chart-svg" viewBox="0 0 960 360" preserveAspectRatio="none"></svg>

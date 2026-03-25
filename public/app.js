@@ -1,6 +1,11 @@
 ﻿const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl ? window.APP_CONFIG.apiBaseUrl : '').replace(/\/$/, '');
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let staticMode = false;
+const monthlyRange = { value: '1y' };
+const chartState = {
+  intraday: { rows: [], zoomStart: 0, zoomEnd: 0, minVisible: 30 },
+  monthly: { rows: [], zoomStart: 0, zoomEnd: 0, minVisible: 6 }
+};
 
 function apiUrl(path) {
   return `${API_BASE}${path}`;
@@ -18,9 +23,7 @@ function staticPathFor(path) {
 }
 
 function formatPrice(value, digits = 2) {
-  if (value === null || value === undefined || Number.isNaN(Number(value))) {
-    return '--';
-  }
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return '--';
   return `$${Number(value).toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
 }
 
@@ -38,9 +41,7 @@ function setText(id, value, className = '') {
 async function fetchJson(path, options) {
   try {
     const response = await fetch(apiUrl(path), options);
-    if (!response.ok) {
-      throw new Error(`Request failed: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Request failed: ${response.status}`);
     staticMode = false;
     return response.json();
   } catch (error) {
@@ -60,27 +61,93 @@ function createSvgNode(tag, attrs = {}, text = '') {
   return node;
 }
 
-function createTicks(min, max, count) {
-  const span = max - min || 1;
-  return Array.from({ length: count }, (_, index) => min + (span * index) / (count - 1));
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
 }
 
 function uniqueSorted(values) {
   return [...new Set(values)].sort((a, b) => a - b);
 }
 
-function renderLineChart(svgId, rows, options) {
+function createTicks(min, max, count) {
+  const span = max - min || 1;
+  return Array.from({ length: count }, (_, index) => min + (span * index) / (count - 1));
+}
+
+function getVisibleRows(key) {
+  const state = chartState[key];
+  if (!state.rows.length) return [];
+  return state.rows.slice(state.zoomStart, state.zoomEnd + 1);
+}
+
+function setZoomRange(key, start, end) {
+  const state = chartState[key];
+  const maxIndex = state.rows.length - 1;
+  if (maxIndex <= 0) return;
+  let nextStart = clamp(start, 0, maxIndex);
+  let nextEnd = clamp(end, 0, maxIndex);
+  if (nextEnd - nextStart + 1 < state.minVisible) {
+    nextEnd = clamp(nextStart + state.minVisible - 1, 0, maxIndex);
+    nextStart = clamp(nextEnd - state.minVisible + 1, 0, maxIndex);
+  }
+  state.zoomStart = nextStart;
+  state.zoomEnd = nextEnd;
+}
+
+function zoomChart(key, factor, centerIndex) {
+  const state = chartState[key];
+  const total = state.rows.length;
+  const currentSize = state.zoomEnd - state.zoomStart + 1;
+  const targetSize = clamp(Math.round(currentSize * factor), state.minVisible, total);
+  if (targetSize === currentSize) return;
+
+  const ratio = currentSize <= 1 ? 0.5 : (centerIndex - state.zoomStart) / (currentSize - 1);
+  let nextStart = Math.round(centerIndex - ratio * (targetSize - 1));
+  let nextEnd = nextStart + targetSize - 1;
+
+  if (nextStart < 0) {
+    nextEnd -= nextStart;
+    nextStart = 0;
+  }
+  if (nextEnd > total - 1) {
+    nextStart -= nextEnd - (total - 1);
+    nextEnd = total - 1;
+  }
+  setZoomRange(key, nextStart, nextEnd);
+}
+
+function panChart(key, delta) {
+  const state = chartState[key];
+  const total = state.rows.length;
+  const size = state.zoomEnd - state.zoomStart + 1;
+  let nextStart = clamp(state.zoomStart + delta, 0, Math.max(0, total - size));
+  setZoomRange(key, nextStart, nextStart + size - 1);
+}
+
+function resolveMonthlyRows(allRows) {
+  if (monthlyRange.value === 'all') return allRows;
+  const months = monthlyRange.value === '1y' ? 12 : 36;
+  return allRows.slice(Math.max(0, allRows.length - months));
+}
+
+function buildChartMeta(info) {
+  return `当前窗口 ${info.visiblePoints} 个点，共 ${info.totalPoints} 个点；价格区间 ${formatPrice(info.minValue)} 到 ${formatPrice(info.maxValue)}。`;
+}
+
+function renderInteractiveChart(svgId, key, options) {
   const svg = document.getElementById(svgId);
   if (!svg) return null;
   while (svg.firstChild) svg.removeChild(svg.firstChild);
 
+  const rows = getVisibleRows(key);
+  const totalRows = chartState[key].rows;
   const width = 960;
   const height = 360;
   const margin = { top: 22, right: 18, bottom: 54, left: 78 };
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
 
-  if (!rows || rows.length < 2) {
+  if (rows.length < 2) {
     svg.appendChild(createSvgNode('text', { x: width / 2, y: height / 2, class: 'chart-empty' }, '暂无足够数据绘制趋势图'));
     return null;
   }
@@ -96,41 +163,19 @@ function renderLineChart(svgId, rows, options) {
   const xAt = (index) => margin.left + (index / (rows.length - 1)) * plotWidth;
   const yAt = (value) => margin.top + plotHeight - ((value - min) / span) * plotHeight;
 
-  const yTicks = createTicks(min, max, options.yTickCount || 6);
+  const yTicks = createTicks(min, max, options.yTickCount || 7);
   const xTickIndexes = uniqueSorted(options.xTickIndexes(rows));
 
   yTicks.forEach((tick, index) => {
     const y = yAt(tick);
-    svg.appendChild(createSvgNode('line', {
-      x1: margin.left,
-      y1: y,
-      x2: width - margin.right,
-      y2: y,
-      class: index === yTicks.length - 1 ? 'chart-grid-strong' : 'chart-grid'
-    }));
-    svg.appendChild(createSvgNode('text', {
-      x: margin.left - 10,
-      y: y + 4,
-      'text-anchor': 'end',
-      class: 'chart-label'
-    }, options.yLabelFormatter(tick)));
+    svg.appendChild(createSvgNode('line', { x1: margin.left, y1: y, x2: width - margin.right, y2: y, class: index === yTicks.length - 1 ? 'chart-grid-strong' : 'chart-grid' }));
+    svg.appendChild(createSvgNode('text', { x: margin.left - 10, y: y + 4, 'text-anchor': 'end', class: 'chart-label' }, options.yLabelFormatter(tick)));
   });
 
   xTickIndexes.forEach((index) => {
     const x = xAt(index);
-    svg.appendChild(createSvgNode('line', {
-      x1: x,
-      y1: margin.top,
-      x2: x,
-      y2: height - margin.bottom,
-      class: 'chart-grid'
-    }));
-    svg.appendChild(createSvgNode('text', {
-      x,
-      y: height - 16,
-      'text-anchor': 'middle',
-      class: 'chart-label'
-    }, options.xLabelFormatter(rows[index], index)));
+    svg.appendChild(createSvgNode('line', { x1: x, y1: margin.top, x2: x, y2: height - margin.bottom, class: 'chart-grid' }));
+    svg.appendChild(createSvgNode('text', { x, y: height - 16, 'text-anchor': 'middle', class: 'chart-label' }, options.xLabelFormatter(rows[index], index)));
   });
 
   svg.appendChild(createSvgNode('line', { x1: margin.left, y1: margin.top, x2: margin.left, y2: height - margin.bottom, class: 'chart-axis' }));
@@ -144,23 +189,126 @@ function renderLineChart(svgId, rows, options) {
   const pointIndexes = uniqueSorted(options.pointIndexes(rows));
   pointIndexes.forEach((index) => {
     const row = rows[index];
-    const circle = createSvgNode('circle', {
+    svg.appendChild(createSvgNode('circle', {
       cx: xAt(index),
       cy: yAt(Number(row.price)),
-      r: options.pointRadius || 1.4,
+      r: options.pointRadius || 1.5,
       fill: options.pointColor,
       class: 'chart-point'
-    });
-    circle.appendChild(createSvgNode('title', {}, `${options.tooltipTitle(row)}\n${formatPrice(row.price)}\n${formatDateTime(row.fetched_at)}`));
-    svg.appendChild(circle);
+    }));
   });
+
+  const overlay = createSvgNode('g', { visibility: 'hidden' });
+  const vertical = createSvgNode('line', { class: 'chart-crosshair' });
+  const horizontal = createSvgNode('line', { class: 'chart-crosshair' });
+  const focusDot = createSvgNode('circle', { r: 4.5, fill: options.pointColor, class: 'chart-focus-dot' });
+  const tooltipBg = createSvgNode('rect', { rx: 10, ry: 10, width: 150, height: 58, class: 'chart-tooltip-bg' });
+  const tooltipLine1 = createSvgNode('text', { class: 'chart-tooltip-text', x: 12, y: 22 });
+  const tooltipLine2 = createSvgNode('text', { class: 'chart-tooltip-text', x: 12, y: 40 });
+  const tooltip = createSvgNode('g');
+  tooltip.appendChild(tooltipBg);
+  tooltip.appendChild(tooltipLine1);
+  tooltip.appendChild(tooltipLine2);
+  overlay.appendChild(vertical);
+  overlay.appendChild(horizontal);
+  overlay.appendChild(focusDot);
+  overlay.appendChild(tooltip);
+  svg.appendChild(overlay);
+
+  function pointerToIndex(clientX) {
+    const rect = svg.getBoundingClientRect();
+    const relativeX = ((clientX - rect.left) / rect.width) * width;
+    const clampedX = clamp(relativeX, margin.left, width - margin.right);
+    const ratio = (clampedX - margin.left) / plotWidth;
+    return clamp(Math.round(ratio * (rows.length - 1)), 0, rows.length - 1);
+  }
+
+  function updateCrosshair(clientX) {
+    const index = pointerToIndex(clientX);
+    const row = rows[index];
+    const cx = xAt(index);
+    const cy = yAt(Number(row.price));
+    vertical.setAttribute('x1', cx);
+    vertical.setAttribute('y1', margin.top);
+    vertical.setAttribute('x2', cx);
+    vertical.setAttribute('y2', height - margin.bottom);
+    horizontal.setAttribute('x1', margin.left);
+    horizontal.setAttribute('y1', cy);
+    horizontal.setAttribute('x2', width - margin.right);
+    horizontal.setAttribute('y2', cy);
+    focusDot.setAttribute('cx', cx);
+    focusDot.setAttribute('cy', cy);
+
+    const tooltipWidth = 180;
+    const tooltipHeight = 58;
+    const tooltipX = cx > width - margin.right - tooltipWidth - 12 ? cx - tooltipWidth - 12 : cx + 12;
+    const tooltipY = cy < margin.top + tooltipHeight ? cy + 12 : cy - tooltipHeight - 8;
+    tooltip.setAttribute('transform', `translate(${tooltipX},${tooltipY})`);
+    tooltipBg.setAttribute('width', tooltipWidth);
+    tooltipBg.setAttribute('height', tooltipHeight);
+    tooltipLine1.textContent = options.tooltipTitle(row);
+    tooltipLine2.textContent = `${formatPrice(row.price)} · ${options.tooltipSubtitle(row)}`;
+    overlay.setAttribute('visibility', 'visible');
+    return chartState[key].zoomStart + index;
+  }
+
+  function hideCrosshair() {
+    overlay.setAttribute('visibility', 'hidden');
+  }
+
+  let dragging = false;
+  let lastClientX = 0;
+
+  svg.onpointermove = (event) => {
+    if (dragging) {
+      const rect = svg.getBoundingClientRect();
+      const pointsPerPixel = rows.length / rect.width;
+      const deltaPoints = Math.round((lastClientX - event.clientX) * pointsPerPixel);
+      lastClientX = event.clientX;
+      if (deltaPoints !== 0) {
+        panChart(key, deltaPoints);
+        options.rerender();
+      }
+      return;
+    }
+    updateCrosshair(event.clientX);
+  };
+
+  svg.onpointerleave = () => {
+    if (!dragging) hideCrosshair();
+  };
+
+  svg.onpointerdown = (event) => {
+    dragging = true;
+    lastClientX = event.clientX;
+    svg.classList.add('is-panning');
+    svg.setPointerCapture(event.pointerId);
+  };
+
+  svg.onpointerup = (event) => {
+    dragging = false;
+    svg.classList.remove('is-panning');
+    if (svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+    updateCrosshair(event.clientX);
+  };
+
+  svg.onwheel = (event) => {
+    event.preventDefault();
+    const centerGlobalIndex = updateCrosshair(event.clientX);
+    zoomChart(key, event.deltaY > 0 ? 1.2 : 0.8, centerGlobalIndex);
+    options.rerender();
+  };
+
+  svg.ondblclick = () => {
+    setZoomRange(key, 0, chartState[key].rows.length - 1);
+    options.rerender();
+  };
 
   return {
     minValue,
     maxValue,
-    points: rows.length,
-    firstLabel: options.tooltipTitle(rows[0]),
-    lastLabel: options.tooltipTitle(rows[rows.length - 1])
+    visiblePoints: rows.length,
+    totalPoints: totalRows.length
   };
 }
 
@@ -169,7 +317,7 @@ async function loadSummary() {
 
   if (summary.latest) {
     setText('latestPrice', `${formatPrice(summary.latest.price)} / ${summary.latest.unit}`);
-    setText('lastUpdated', `最近更新：${formatDateTime(summary.latest.fetched_at)} · 来源：${summary.latest.source_mode}`);
+    setText('lastUpdated', `最近更新：${formatDateTime(summary.latest.fetched_at)} · 来源：钉子`);
   } else {
     setText('latestPrice', '--');
     setText('lastUpdated', '暂无数据');
@@ -192,9 +340,8 @@ async function loadSummary() {
   setText('modeHint', staticMode ? '当前为 Vercel 静态模式，数据由 GitHub Actions 定时更新。' : '当前为本地/API 模式。');
 }
 
-async function loadIntradayChart() {
-  const rows = await fetchJson('/api/chart/intraday');
-  const info = renderLineChart('intradayChart', rows, {
+function renderIntradayChart() {
+  const info = renderInteractiveChart('intradayChart', 'intraday', {
     areaClass: 'chart-area-gold',
     lineClass: 'chart-line-gold',
     pointColor: '#f6c65b',
@@ -216,27 +363,40 @@ async function loadIntradayChart() {
     },
     tooltipTitle(row) {
       return new Date(row.fetched_at).toLocaleString('zh-CN', { hour12: false });
+    },
+    tooltipSubtitle(row) {
+      return '分钟点';
+    },
+    rerender() {
+      renderIntradayChart();
     }
   });
 
   if (info) {
-    setText('intradayMeta', `共 ${info.points} 个分钟点，完整绘制最近 24 小时走势；价格区间 ${formatPrice(info.minValue)} 到 ${formatPrice(info.maxValue)}。`);
+    setText('intradayMeta', `${buildChartMeta(info)} 滚轮缩放，双击重置，按住拖拽可查看局部波动。`);
   }
 }
 
-async function loadMonthlyChart() {
-  const rows = await fetchJson('/api/chart/monthly?months=120');
-  const info = renderLineChart('monthlyChart', rows, {
+async function loadIntradayChart() {
+  const rows = await fetchJson('/api/chart/intraday');
+  chartState.intraday.rows = rows;
+  setZoomRange('intraday', Math.max(0, rows.length - 360), rows.length - 1);
+  renderIntradayChart();
+}
+
+function renderMonthlyChart() {
+  const info = renderInteractiveChart('monthlyChart', 'monthly', {
     areaClass: 'chart-area-teal',
     lineClass: 'chart-line-teal',
     pointColor: '#7ad3c8',
-    pointRadius: 2.1,
+    pointRadius: 2.2,
     yTickCount: 7,
     yLabelFormatter(value) {
       return formatPrice(value, 0);
     },
     xTickIndexes(data) {
-      return data.map((_, index) => index).filter((index) => index % Math.max(1, Math.ceil(data.length / 18)) === 0 || index === data.length - 1);
+      const desired = Math.min(12, data.length);
+      return Array.from({ length: desired }, (_, i) => Math.min(data.length - 1, Math.round((i * (data.length - 1)) / Math.max(1, desired - 1))));
     },
     pointIndexes(data) {
       return data.map((_, index) => index);
@@ -245,13 +405,37 @@ async function loadMonthlyChart() {
       return row.bucket;
     },
     tooltipTitle(row) {
-      return `${row.bucket} 月度点`;
+      return `${row.bucket}`;
+    },
+    tooltipSubtitle() {
+      return '月度点';
+    },
+    rerender() {
+      renderMonthlyChart();
     }
   });
 
   if (info) {
-    setText('monthlyMeta', `共 ${info.points} 个月度点，完整显示全部月份；价格区间 ${formatPrice(info.minValue)} 到 ${formatPrice(info.maxValue)}。`);
+    setText('monthlyMeta', `${buildChartMeta(info)} 当前显示 ${monthlyRange.value === 'all' ? '全部' : monthlyRange.value === '1y' ? '1 年' : '3 年'} 视图。`);
   }
+}
+
+async function loadMonthlyChart() {
+  const allRows = await fetchJson('/api/chart/monthly?months=120');
+  const rows = resolveMonthlyRows(allRows);
+  chartState.monthly.rows = rows;
+  setZoomRange('monthly', 0, rows.length - 1);
+  renderMonthlyChart();
+}
+
+function initializeMonthlyRangeSwitcher() {
+  document.querySelectorAll('#monthlyRangeSwitcher .segmented-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      monthlyRange.value = button.dataset.range;
+      document.querySelectorAll('#monthlyRangeSwitcher .segmented-btn').forEach((item) => item.classList.toggle('active', item === button));
+      loadMonthlyChart().catch((error) => console.error('Monthly chart reload failed:', error));
+    });
+  });
 }
 
 async function loadHistoryTable() {
@@ -297,6 +481,7 @@ async function manualRefresh() {
 }
 
 document.getElementById('manualRefresh').addEventListener('click', manualRefresh);
+initializeMonthlyRangeSwitcher();
 refreshAll().catch((error) => console.error('Dashboard refresh failed:', error));
 setInterval(() => {
   refreshAll().catch((error) => console.error('Scheduled dashboard refresh failed:', error));
