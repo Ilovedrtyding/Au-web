@@ -1,0 +1,20 @@
+﻿services:
+  - type: web
+    name: gold-monitor-dashboard
+    runtime: node
+    plan: starter
+    autoDeploy: true
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    disk:
+      name: gold-monitor-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DB_PATH
+        value: /var/data/gold_prices.db
+      - key: PRICE_SOURCE_MODE
+        value: api
