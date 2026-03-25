@@ -1,25 +1,28 @@
-﻿{
-  "name": "au-web",
-  "version": "1.0.0",
-  "description": "Gold monitoring dashboard with scheduled data collection and SQLite persistence.",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "test": "echo \"No automated tests configured\""
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "axios": "^1.13.6",
-    "better-sqlite3": "^12.8.0",
-    "cheerio": "^1.2.0",
-    "express": "^5.2.1",
-    "node-cron": "^4.2.1"
-  }
+{
+    "name":  "au-web",
+    "version":  "1.0.0",
+    "description":  "Gold monitoring dashboard prepared for Vercel sharing with scheduled data refresh.",
+    "main":  "server.js",
+    "scripts":  {
+                    "start":  "node server.js",
+                    "dev":  "node server.js",
+                    "update:data":  "node scripts/update-data.js",
+                    "test":  "echo \"No automated tests configured\""
+                },
+    "engines":  {
+                    "node":  "\u003e=20"
+                },
+    "keywords":  [
+
+                 ],
+    "author":  "",
+    "license":  "ISC",
+    "type":  "commonjs",
+    "dependencies":  {
+                         "axios":  "^1.13.6",
+                         "better-sqlite3":  "^12.8.0",
+                         "cheerio":  "^1.2.0",
+                         "express":  "^5.2.1",
+                         "node-cron":  "^4.2.1"
+                     }
 }

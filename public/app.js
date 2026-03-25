@@ -1,19 +1,27 @@
 ﻿const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl ? window.APP_CONFIG.apiBaseUrl : '').replace(/\/$/, '');
 const SVG_NS = 'http://www.w3.org/2000/svg';
+let staticMode = false;
 
 function apiUrl(path) {
   return `${API_BASE}${path}`;
+}
+
+function staticPathFor(path) {
+  const mapping = {
+    '/api/summary': './data/summary.json',
+    '/api/status': './data/status.json',
+    '/api/chart/intraday': './data/intraday.json',
+    '/api/chart/monthly?months=120': './data/monthly.json',
+    '/api/history/daily?days=45': './data/daily.json'
+  };
+  return mapping[path] || null;
 }
 
 function formatPrice(value) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) {
     return '--';
   }
-
-  return `$${Number(value).toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  })}`;
+  return `$${Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function formatDateTime(value) {
@@ -28,29 +36,38 @@ function setText(id, value, className = '') {
 }
 
 async function fetchJson(path, options) {
-  const response = await fetch(apiUrl(path), options);
-  if (!response.ok) {
-    throw new Error(`Request failed: ${response.status}`);
+  try {
+    const response = await fetch(apiUrl(path), options);
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+    staticMode = false;
+    return response.json();
+  } catch (error) {
+    const fallbackPath = staticPathFor(path);
+    if (!fallbackPath) {
+      throw error;
+    }
+    const fallback = await fetch(fallbackPath, { cache: 'no-store' });
+    if (!fallback.ok) {
+      throw error;
+    }
+    staticMode = true;
+    return fallback.json();
   }
-  return response.json();
 }
 
 function createSvgNode(tag, attrs = {}, text = '') {
   const node = document.createElementNS(SVG_NS, tag);
   Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
-  if (text) {
-    node.textContent = text;
-  }
+  if (text) node.textContent = text;
   return node;
 }
 
 function renderLineChart(svgId, rows, options) {
   const svg = document.getElementById(svgId);
   if (!svg) return;
-
-  while (svg.firstChild) {
-    svg.removeChild(svg.firstChild);
-  }
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
 
   const width = 960;
   const height = 360;
@@ -67,81 +84,36 @@ function renderLineChart(svgId, rows, options) {
   const min = Math.min(...values);
   const max = Math.max(...values);
   const span = max - min || 1;
-
   const xAt = (index) => margin.left + (index / (rows.length - 1)) * plotWidth;
   const yAt = (value) => margin.top + plotHeight - ((value - min) / span) * plotHeight;
 
   [0, 0.25, 0.5, 0.75, 1].forEach((fraction) => {
     const y = margin.top + plotHeight * fraction;
-    svg.appendChild(createSvgNode('line', {
-      x1: margin.left,
-      y1: y,
-      x2: width - margin.right,
-      y2: y,
-      class: 'chart-grid'
-    }));
+    svg.appendChild(createSvgNode('line', { x1: margin.left, y1: y, x2: width - margin.right, y2: y, class: 'chart-grid' }));
   });
 
-  svg.appendChild(createSvgNode('line', {
-    x1: margin.left,
-    y1: margin.top,
-    x2: margin.left,
-    y2: height - margin.bottom,
-    class: 'chart-axis'
-  }));
-  svg.appendChild(createSvgNode('line', {
-    x1: margin.left,
-    y1: height - margin.bottom,
-    x2: width - margin.right,
-    y2: height - margin.bottom,
-    class: 'chart-axis'
-  }));
+  svg.appendChild(createSvgNode('line', { x1: margin.left, y1: margin.top, x2: margin.left, y2: height - margin.bottom, class: 'chart-axis' }));
+  svg.appendChild(createSvgNode('line', { x1: margin.left, y1: height - margin.bottom, x2: width - margin.right, y2: height - margin.bottom, class: 'chart-axis' }));
 
   const linePoints = rows.map((row, index) => `${xAt(index)},${yAt(Number(row.price))}`).join(' ');
   const areaPoints = `${margin.left},${height - margin.bottom} ${linePoints} ${width - margin.right},${height - margin.bottom}`;
 
-  svg.appendChild(createSvgNode('polygon', {
-    points: areaPoints,
-    class: options.areaClass
-  }));
-  svg.appendChild(createSvgNode('polyline', {
-    points: linePoints,
-    class: options.lineClass
-  }));
+  svg.appendChild(createSvgNode('polygon', { points: areaPoints, class: options.areaClass }));
+  svg.appendChild(createSvgNode('polyline', { points: linePoints, class: options.lineClass }));
 
-  const markerIndexes = options.markerIndexes(rows.length);
-  markerIndexes.forEach((index) => {
+  options.markerIndexes(rows.length).forEach((index) => {
     const row = rows[index];
-    svg.appendChild(createSvgNode('circle', {
-      cx: xAt(index),
-      cy: yAt(Number(row.price)),
-      r: 3.5,
-      fill: options.pointColor,
-      class: 'chart-point'
-    }));
-
-    svg.appendChild(createSvgNode('text', {
-      x: xAt(index),
-      y: height - 12,
-      'text-anchor': 'middle',
-      class: 'chart-label'
-    }, options.labelFormatter(row, index)));
+    svg.appendChild(createSvgNode('circle', { cx: xAt(index), cy: yAt(Number(row.price)), r: 3.5, fill: options.pointColor, class: 'chart-point' }));
+    svg.appendChild(createSvgNode('text', { x: xAt(index), y: height - 12, 'text-anchor': 'middle', class: 'chart-label' }, options.labelFormatter(row, index)));
   });
 
   [min, min + span / 2, max].forEach((value) => {
-    svg.appendChild(createSvgNode('text', {
-      x: 10,
-      y: yAt(value) + 4,
-      class: 'chart-label'
-    }, formatPrice(value)));
+    svg.appendChild(createSvgNode('text', { x: 10, y: yAt(value) + 4, class: 'chart-label' }, formatPrice(value)));
   });
 }
 
 async function loadSummary() {
-  const [summary, status] = await Promise.all([
-    fetchJson('/api/summary'),
-    fetchJson('/api/status')
-  ]);
+  const [summary, status] = await Promise.all([fetchJson('/api/summary'), fetchJson('/api/status')]);
 
   if (summary.latest) {
     setText('latestPrice', `${formatPrice(summary.latest.price)} / ${summary.latest.unit}`);
@@ -165,6 +137,7 @@ async function loadSummary() {
   setText('totalSnapshots', String(status.totalSnapshots ?? '--'));
   setText('firstSnapshotAt', formatDateTime(status.firstSnapshotAt));
   setText('latestSnapshotAt', formatDateTime(status.latestSnapshotAt));
+  setText('modeHint', staticMode ? '当前为 Vercel 静态模式，数据由 GitHub Actions 定时更新。' : '当前为本地/API 模式。');
 }
 
 async function loadIntradayChart() {
@@ -192,12 +165,8 @@ async function loadMonthlyChart() {
     markerIndexes(length) {
       const step = Math.max(1, Math.floor(length / 6));
       const indexes = [];
-      for (let index = 0; index < length; index += step) {
-        indexes.push(index);
-      }
-      if (indexes[indexes.length - 1] !== length - 1) {
-        indexes.push(length - 1);
-      }
+      for (let index = 0; index < length; index += step) indexes.push(index);
+      if (indexes[indexes.length - 1] !== length - 1) indexes.push(length - 1);
       return indexes;
     },
     labelFormatter(row) {
@@ -209,7 +178,6 @@ async function loadMonthlyChart() {
 async function loadHistoryTable() {
   const rows = await fetchJson('/api/history/daily?days=45');
   const tbody = document.getElementById('historyTable');
-
   tbody.innerHTML = rows.map((row) => {
     const className = Number(row.delta) >= 0 ? 'positive' : 'negative';
     const deltaText = `${row.delta >= 0 ? '+' : ''}${formatPrice(row.delta)} / ${row.deltaPercent >= 0 ? '+' : ''}${row.deltaPercent}%`;
@@ -229,12 +197,7 @@ async function loadHistoryTable() {
 }
 
 async function refreshAll() {
-  await Promise.all([
-    loadSummary(),
-    loadIntradayChart(),
-    loadMonthlyChart(),
-    loadHistoryTable()
-  ]);
+  await Promise.all([loadSummary(), loadIntradayChart(), loadMonthlyChart(), loadHistoryTable()]);
 }
 
 async function manualRefresh() {
@@ -242,13 +205,15 @@ async function manualRefresh() {
   button.disabled = true;
   button.textContent = '刷新中...';
   try {
-    await fetchJson('/api/refresh', { method: 'POST' });
+    if (!staticMode) {
+      await fetchJson('/api/refresh', { method: 'POST' });
+    }
     await refreshAll();
   } catch (error) {
-    alert(`刷新失败：${error.message}`);
+    await refreshAll();
   } finally {
     button.disabled = false;
-    button.textContent = '立即刷新数据';
+    button.textContent = staticMode ? '重新读取页面数据' : '立即刷新数据';
   }
 }
 

@@ -1,94 +1,89 @@
 ﻿# 金价实时监测网页
 
-这是一个可直接部署的金价监测站，包含：
+这是一个已经整理成适合 Vercel 分享的金价监测站。
 
-- 每 1 分钟自动采集一次最新金价
-- SQLite 持久化存储，避免历史数据丢失
-- 24 小时分钟级趋势图
-- 历年月度趋势图（每个月一个点）
-- 历史记录表（按天展示开盘、收盘、最高、最低、均价、涨跌）
-- 支持稳定 API 模式与可切换的网页爬虫模式
+## 当前方案
 
-## 本地启动
+为了兼容你现在的条件，这个项目已经调整为：
+
+- 前端部署到 Vercel
+- 数据文件存放在仓库的 `public/data`
+- GitHub Actions 每 5 分钟自动更新一次数据
+- 页面本身每 1 分钟自动刷新一次显示
+
+这样你不需要国外信用卡，也能拿到一个可直接分享的网址。
+
+## 为什么不是 1 分钟服务端采集
+
+截至 2026 年 3 月 25 日，我核对了官方文档后，这套免费组合里有两个限制：
+
+- GitHub Actions 的定时任务最短通常是 5 分钟
+- Vercel Hobby 的 Cron Jobs 不是为你这种稳定 1 分钟持久采集场景准备的
+
+所以我把它做成了：
+
+- 服务端数据更新：每 5 分钟
+- 页面自动刷新：每 1 分钟
+- 24 小时图：按分钟粒度展示，缺失分钟会用最近一次价格补齐
+
+## 你现在需要做的事
+
+### 1. 在本地生成一份初始数据并提交
 
 ```powershell
 cd D:\Claude\Au-web
 npm.cmd install
+npm.cmd run update:data
+```
+
+然后提交并推送：
+
+```powershell
+git add .
+git commit -m "Prepare Vercel deployment"
+git push origin main
+```
+
+### 2. 在 Vercel 导入 GitHub 仓库
+
+你的仓库地址是：
+
+```text
+https://github.com/Ilovedrtyding/Au-web
+```
+
+在 Vercel 中：
+
+1. 点击 `Add New...`
+2. 选择 `Project`
+3. 导入这个 GitHub 仓库
+4. 保持默认设置，直接部署
+
+仓库中已经有：
+
+- `vercel.json`：告诉 Vercel 直接发布 `public` 目录
+- `.github/workflows/refresh-data.yml`：每 5 分钟更新一次静态数据
+
+### 3. 开启 GitHub Actions
+
+确保仓库的 `Actions` 没有被禁用。
+第一次你也可以手动进入 `Refresh Gold Data` 工作流点一次 `Run workflow`，这样页面会马上拿到初始数据。
+
+## 项目结构
+
+- `public/index.html`：页面
+- `public/app.js`：图表与数据读取逻辑
+- `public/data/*.json`：Vercel 直接读取的静态数据
+- `scripts/update-data.js`：生成和更新数据的脚本
+- `.github/workflows/refresh-data.yml`：定时更新数据
+- `vercel.json`：Vercel 部署配置
+
+## 本地模式
+
+如果你本地仍想跑原来的 Node 服务：
+
+```powershell
 npm.cmd start
 ```
 
-访问地址：
-
-```text
-http://localhost:3000
-```
-
-## 数据源
-
-- 默认：`api.gold-api.com`
-- 可选：设置环境变量 `PRICE_SOURCE_MODE=scraper` 后优先尝试网页抓取，失败时自动回退到 API
-
-## 数据库存储
-
-本地默认数据库位置：
-
-```text
-data/gold_prices.db
-```
-
-线上部署时可通过环境变量 `DB_PATH` 指定持久化磁盘路径。
-
-## 最推荐的分享方案
-
-最省事的方案不是 GitHub Pages，而是：
-
-1. 代码托管到 GitHub
-2. 整个 Node 服务直接部署到 Render
-3. Render 给你一个可分享的公网网址
-4. SQLite 挂载到 Render Persistent Disk，避免数据丢失
-
-仓库里已经准备好：
-
-- `render.yaml`：Render 一键部署配置
-- `.github/workflows/deploy-pages.yml`：如果你还想单独发布静态前端，也可以用 GitHub Pages
-- `public/config.js`：如果以后前后端拆开，可以在这里配置 API 根地址
-
-## 拿到线上网址的步骤
-
-### 1. 推送到 GitHub
-
-```powershell
-git init
-git add .
-git commit -m "Initial gold monitor dashboard"
-```
-
-然后在 GitHub 新建仓库并执行：
-
-```powershell
-git branch -M main
-git remote add origin <你的仓库地址>
-git push -u origin main
-```
-
-### 2. 在 Render 部署
-
-1. 登录 Render
-2. 选择 New + > Blueprint
-3. 选择你刚推送的 GitHub 仓库
-4. Render 会识别仓库里的 `render.yaml`
-5. 确认创建服务后等待部署完成
-
-部署成功后，Render 会给你一个类似下面的公网地址：
-
-```text
-https://gold-monitor-dashboard.onrender.com
-```
-
-这就是可以直接分享给别人的网址。
-
-## 重要说明
-
-- `render.yaml` 当前使用 `starter` 方案，因为持久化磁盘需要付费实例支持
-- 如果只用纯免费的静态托管，无法保留 SQLite 数据，也无法稳定实现服务端每 1 分钟采集
-- 因此想要“可分享 + 自动采集 + 数据不丢失”，完整方案建议走 Render 这类后端托管
+页面会优先读取本地 `/api/*`；如果没有 API，则自动回退到 `public/data/*.json`。

@@ -13,8 +13,9 @@
           <p class="eyebrow">Gold Pulse Monitor</p>
           <h1>金价实时监测台</h1>
           <p class="hero-text">
-            自动采集并保存黄金价格，支持 1 分钟轮询、24 小时分钟级观察、历年趋势回看，以及按天归档的历史记录。
+            自动采集并保存黄金价格，支持 1 分钟页面刷新、24 小时分钟级观察、历年趋势回看，以及按天归档的历史记录。
           </p>
+          <p id="modeHint" class="mode-hint">正在识别当前数据模式...</p>
         </div>
         <div class="hero-panels">
           <section class="metric-card main">
@@ -30,7 +31,7 @@
           <section class="metric-card">
             <span class="metric-label">24 小时区间</span>
             <strong id="dailyRange">--</strong>
-            <span>每 1 分钟自动刷新</span>
+            <span>页面每 1 分钟自动刷新</span>
           </section>
         </div>
       </header>
@@ -84,7 +85,7 @@
             </div>
           </div>
           <p class="status-note">
-            默认使用公共价格接口；如后端部署在其他地址，可在 <code>public/config.js</code> 中配置 API 根地址。
+            Vercel 分享模式下，静态页面会读取 <code>public/data</code> 中的数据文件；这些文件可由 GitHub Actions 自动更新。
           </p>
         </section>
 
