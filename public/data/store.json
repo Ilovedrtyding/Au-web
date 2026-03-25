@@ -37511,6 +37511,486 @@
       "source_mode": "api",
       "currency": "USD",
       "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:48:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:49:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:50:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:51:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:52:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:53:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:54:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:55:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:56:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:57:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:58:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T15:59:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:00:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:01:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:02:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:03:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:04:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:05:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:06:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:07:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:08:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:09:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:10:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:11:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:12:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:13:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:14:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:15:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:16:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:17:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:18:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:19:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:20:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:21:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:22:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:23:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:24:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:25:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:26:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:27:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:28:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:29:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:30:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:31:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:32:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:33:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:34:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:35:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:36:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:37:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:38:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:39:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:40:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:41:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:42:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:43:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:44:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:45:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:46:00.000Z",
+      "price": 4555.5,
+      "source": "carry-forward",
+      "source_mode": "derived",
+      "currency": "USD",
+      "unit": "oz"
+    },
+    {
+      "fetched_at": "2026-03-25T16:47:00.000Z",
+      "price": 4555.700195,
+      "source": "api.gold-api.com",
+      "source_mode": "api",
+      "currency": "USD",
+      "unit": "oz"
     }
   ]
 }
