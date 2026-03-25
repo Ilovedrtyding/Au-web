@@ -1,18 +1,18 @@
 {
   "latest": {
-    "fetched_at": "2026-03-25T20:48:00.000Z",
-    "price": 4507.200195,
+    "fetched_at": "2026-03-25T21:22:00.000Z",
+    "price": 4507.299805,
     "source": "api.gold-api.com",
     "source_mode": "api",
     "currency": "USD",
     "unit": "oz"
   },
   "change24h": {
-    "absolute": 2074.1,
-    "percent": 85.25
+    "absolute": 2068.59,
+    "percent": 84.82
   },
   "dailyRange": {
-    "low": 2433.1,
+    "low": 2438.71,
     "high": 4582.600098
   },
   "nextRefreshMinutes": 5
