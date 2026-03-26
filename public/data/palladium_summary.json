@@ -1,20 +1,20 @@
 {
   "latest": {
-    "fetched_at": "2026-03-26T08:30:00.000Z",
-    "price": 1408,
-    "source": "api.gold-api.com",
+    "fetched_at": "2026-03-26T09:30:00.000Z",
+    "price": 306.1,
+    "source": "v3.alapi.cn",
     "source_mode": "api",
-    "currency": "USD",
-    "unit": "oz",
+    "currency": "CNY",
+    "unit": "g",
     "metal": "palladium"
   },
   "change24h": {
-    "absolute": 140.105,
-    "percent": 11.05
+    "absolute": -2.7451,
+    "percent": -0.89
   },
   "dailyRange": {
-    "low": 1259.6152,
-    "high": 1437
+    "low": 306.1,
+    "high": 319.6494
   },
   "nextRefreshMinutes": 1
 }

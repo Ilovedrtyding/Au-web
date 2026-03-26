@@ -3,6 +3,7 @@ const path = require('path');
 const axios = require('axios');
 
 const dataDir = path.join(__dirname, '..', 'public', 'data');
+const debugDir = path.join(__dirname, '..', 'debug');
 
 const DEFAULT_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0 Safari/537.36',
@@ -35,62 +36,70 @@ function getConfig(metal) {
     gold: {
       metal: 'gold',
       symbol: 'XAU',
+      alapiSymbol: 'Au',
+      sourceLabel: 'Au',
       prefix: '',
-      baseLong: 2080,
-      baseIntraday: 2435,
-      monthlyWave: 48,
-      dailyWave: 12,
-      minuteWave: 4.8,
-      hourWave: 8.5,
+      baseLong: 768,
+      baseIntraday: 1002.1,
+      monthlyWave: 26,
+      dailyWave: 8,
+      minuteWave: 2.2,
+      hourWave: 4.2,
       drift: 0.012,
-      maxApiDeviation: 0.22,
-      unit: 'oz',
-      currency: 'USD'
+      maxApiDeviation: 0.2,
+      unit: 'g',
+      currency: 'CNY'
     },
     silver: {
       metal: 'silver',
       symbol: 'XAG',
+      alapiSymbol: 'Ag',
+      sourceLabel: 'Ag',
       prefix: 'silver_',
-      baseLong: 23,
-      baseIntraday: 31,
-      monthlyWave: 1.6,
-      dailyWave: 0.5,
-      minuteWave: 0.35,
-      hourWave: 0.55,
+      baseLong: 13.2,
+      baseIntraday: 17.845,
+      monthlyWave: 0.8,
+      dailyWave: 0.28,
+      minuteWave: 0.12,
+      hourWave: 0.18,
       drift: 0.004,
-      maxApiDeviation: 0.3,
-      unit: 'oz',
-      currency: 'USD'
+      maxApiDeviation: 0.28,
+      unit: 'g',
+      currency: 'CNY'
     },
     platinum: {
       metal: 'platinum',
       symbol: 'XPT',
+      alapiSymbol: 'Pt',
+      sourceLabel: 'Pt',
       prefix: 'platinum_',
-      baseLong: 980,
-      baseIntraday: 1085,
-      monthlyWave: 22,
-      dailyWave: 7,
-      minuteWave: 2.6,
-      hourWave: 4.8,
+      baseLong: 365,
+      baseIntraday: 449,
+      monthlyWave: 18,
+      dailyWave: 6,
+      minuteWave: 1.9,
+      hourWave: 3.1,
       drift: 0.006,
-      maxApiDeviation: 0.32,
-      unit: 'oz',
-      currency: 'USD'
+      maxApiDeviation: 0.24,
+      unit: 'g',
+      currency: 'CNY'
     },
     palladium: {
       metal: 'palladium',
       symbol: 'XPD',
+      alapiSymbol: 'Pd',
+      sourceLabel: 'Pd',
       prefix: 'palladium_',
-      baseLong: 1180,
-      baseIntraday: 1265,
-      monthlyWave: 36,
-      dailyWave: 10,
-      minuteWave: 3.8,
-      hourWave: 7.2,
+      baseLong: 255,
+      baseIntraday: 306.1,
+      monthlyWave: 12,
+      dailyWave: 4,
+      minuteWave: 1.5,
+      hourWave: 2.6,
       drift: 0.008,
-      maxApiDeviation: 0.35,
-      unit: 'oz',
-      currency: 'USD'
+      maxApiDeviation: 0.24,
+      unit: 'g',
+      currency: 'CNY'
     }
   };
 
@@ -174,42 +183,159 @@ function pickNumeric(value, keys) {
   return null;
 }
 
-async function fetchFromAlapiGold(config) {
-  if (config.metal !== 'gold') throw new Error('ALAPI gold endpoint only supports gold');
+function pickNumericDeep(value, preferredKeys = []) {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (typeof value === 'string') {
+    const normalized = value.replace(/,/g, '').trim();
+    const direct = Number(normalized);
+    if (!Number.isNaN(direct) && Number.isFinite(direct)) return direct;
+    const matched = normalized.match(/-?\d+(?:\.\d+)?/);
+    if (matched) {
+      const parsed = Number(matched[0]);
+      if (!Number.isNaN(parsed) && Number.isFinite(parsed)) return parsed;
+    }
+    return null;
+  }
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const found = pickNumericDeep(item, preferredKeys);
+      if (found !== null) return found;
+    }
+    return null;
+  }
+  if (typeof value === 'object') {
+    for (const key of preferredKeys) {
+      const found = pickNumericDeep(value[key], preferredKeys);
+      if (found !== null) return found;
+    }
+    for (const [key, current] of Object.entries(value)) {
+      if (preferredKeys.includes(key)) continue;
+      const found = pickNumericDeep(current, preferredKeys);
+      if (found !== null) return found;
+    }
+  }
+  return null;
+}
+
+function unwrapAlapiEntry(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (!payload || typeof payload !== 'object') return payload;
+  const nestedKeys = ['list', 'items', 'data', 'result'];
+  for (const key of nestedKeys) {
+    if (payload[key] !== undefined && payload[key] !== null) {
+      return unwrapAlapiEntry(payload[key]);
+    }
+  }
+  return payload;
+}
+
+function collectNumericCandidates(value, preferredKeys = [], acc = []) {
+  if (value === null || value === undefined) return acc;
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    acc.push(value);
+    return acc;
+  }
+  if (typeof value === 'string') {
+    const normalized = value.replace(/,/g, '').trim();
+    const direct = Number(normalized);
+    if (!Number.isNaN(direct) && Number.isFinite(direct)) {
+      acc.push(direct);
+      return acc;
+    }
+    const matched = normalized.match(/-?d+(?:.d+)?/);
+    if (matched) {
+      const parsed = Number(matched[0]);
+      if (!Number.isNaN(parsed) && Number.isFinite(parsed)) acc.push(parsed);
+    }
+    return acc;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectNumericCandidates(item, preferredKeys, acc));
+    return acc;
+  }
+  if (typeof value === 'object') {
+    preferredKeys.forEach((key) => {
+      if (key in value) collectNumericCandidates(value[key], preferredKeys, acc);
+    });
+    Object.entries(value).forEach(([key, current]) => {
+      if (preferredKeys.includes(key)) return;
+      collectNumericCandidates(current, preferredKeys, acc);
+    });
+  }
+  return acc;
+}
+
+function selectPlausibleGoldPrice(entry) {
+  const preferredKeys = ['price', 'now_price', 'new_price', 'last_price', 'latest_price', 'latest', 'value', 'price_usd', 'usd_price', 'bp_price', 'toprice'];
+  const direct = pickNumericDeep(entry, preferredKeys);
+  const candidates = collectNumericCandidates(entry, preferredKeys, [])
+    .filter((value) => value > 1000 && value < 5000)
+    .sort((a, b) => Math.abs(a - 2500) - Math.abs(b - 2500));
+
+  if (candidates.length) return candidates[0];
+  return direct;
+}
+
+let alapiMarketCache = null;
+
+async function fetchAlapiMarketData() {
   const token = process.env.ALAPI_TOKEN;
   if (!token) throw new Error('ALAPI_TOKEN not set');
 
-  const response = await axios.get('https://v3.alapi.cn/api/gold', {
-    headers: DEFAULT_HEADERS,
-    timeout: 15000,
-    params: { token, market: 'LF' }
-  });
+  if (!alapiMarketCache) {
+    const response = await axios.get('https://v3.alapi.cn/api/gold', {
+      headers: DEFAULT_HEADERS,
+      timeout: 15000,
+      params: { token, market: process.env.ALAPI_MARKET || 'LF' }
+    });
 
-  if (!response.data) {
-    throw new Error('ALAPI did not return payload');
+    if (!response.data?.success || !Array.isArray(response.data.data)) {
+      throw new Error('ALAPI payload format invalid');
+    }
+
+    alapiMarketCache = response.data;
   }
 
-  const payload = response.data.data ?? response.data;
-  let entry = payload;
-  if (Array.isArray(payload)) {
-    const prefer = process.env.ALAPI_GOLD_TYPE;
-    entry = prefer
-      ? payload.find((item) => [item.name, item.type, item.title, item.brand, item.symbol].includes(prefer)) || payload[0]
-      : payload[0];
+  return alapiMarketCache;
+}
+
+function resolveAlapiEntry(rows, config) {
+  const direct = rows.find((item) => String(item.symbol || '').toLowerCase() === config.alapiSymbol.toLowerCase());
+  if (direct) return direct;
+
+  const byName = rows.find((item) => String(item.name || '').includes(config.sourceLabel));
+  if (byName) return byName;
+
+  throw new Error('ALAPI did not provide ' + config.alapiSymbol + ' quote');
+}
+
+function resolveAlapiPrice(entry) {
+  for (const key of ['buy_price', 'sell_price', 'high_price', 'low_price']) {
+    const price = Number(entry[key]);
+    if (Number.isFinite(price) && price > 0) {
+      return price;
+    }
   }
 
-  const price = pickNumeric(entry, ['price', 'now_price', 'new_price', 'last_price', 'latest_price', 'latest', 'value', 'price_usd', 'usd_price']);
-  if (!Number.isFinite(price)) {
-    throw new Error('ALAPI did not provide numeric price');
-  }
+  throw new Error('ALAPI did not provide numeric price');
+}
+
+async function fetchFromAlapi(config) {
+  const payload = await fetchAlapiMarketData();
+  const entry = resolveAlapiEntry(payload.data, config);
+  const price = resolveAlapiPrice(entry);
+  const fetchedAt = payload.time
+    ? new Date(Number(payload.time) * 1000)
+    : parseTimestamp(entry.time || entry.timestamp || entry.updated_at || new Date());
 
   return {
-    fetched_at: isoMinute(parseTimestamp(entry.time || entry.timestamp || entry.updated_at || new Date())),
+    fetched_at: isoMinute(fetchedAt),
     price: Number(price),
     source: 'v3.alapi.cn',
     source_mode: 'api',
-    currency: String(entry.currency || entry.money || entry.currency_code || 'USD').toUpperCase(),
-    unit: String(entry.unit || entry.units || 'oz'),
+    currency: config.currency,
+    unit: config.unit,
     metal: config.metal
   };
 }
@@ -237,8 +363,8 @@ async function fetchFromGoldApiDotCom(config) {
 
 async function fetchCurrentPrice(config) {
   const preferred = (process.env.PRICE_SOURCE_MODE || 'alapi').toLowerCase();
-  if (config.metal === 'gold' && preferred === 'alapi') {
-    return fetchFromAlapiGold(config);
+  if (preferred === 'alapi') {
+    return fetchFromAlapi(config);
   }
   return fetchFromGoldApiDotCom(config);
 }
@@ -386,6 +512,21 @@ function pruneTailAnomalies(config, snapshots) {
   return rows;
 }
 
+function shouldResetSnapshots(config, snapshots) {
+  if (!snapshots.length) return true;
+
+  const latest = snapshots[snapshots.length - 1];
+  if ((latest.currency || config.currency) !== config.currency) return true;
+  if ((latest.unit || config.unit) !== config.unit) return true;
+
+  const recentWindow = snapshots.slice(-360).map((row) => Number(row.price)).filter(Number.isFinite);
+  const baseline = median(recentWindow);
+  if (!baseline || baseline <= 0) return false;
+
+  const deviation = Math.abs(baseline - config.baseIntraday) / config.baseIntraday;
+  return deviation > 0.55;
+}
+
 function buildStatus(snapshots, metalLabel) {
   return {
     metal: metalLabel,
@@ -421,6 +562,9 @@ async function processCommodity(metal) {
   const store = readJson(paths.store, { snapshots: generateSeedSnapshots(config) });
   let snapshots = Array.isArray(store.snapshots) ? store.snapshots : generateSeedSnapshots(config);
   snapshots.sort((a, b) => new Date(a.fetched_at) - new Date(b.fetched_at));
+  if (shouldResetSnapshots(config, snapshots)) {
+    snapshots = generateSeedSnapshots(config);
+  }
   snapshots = pruneTailAnomalies(config, snapshots);
 
   try {
@@ -522,5 +666,8 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
+
+
 
 

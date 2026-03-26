@@ -1,20 +1,20 @@
 {
   "latest": {
-    "fetched_at": "2026-03-26T05:24:00.000Z",
-    "price": 1095.3784,
-    "source": "carry-forward",
-    "source_mode": "derived",
-    "currency": "USD",
-    "unit": "oz",
+    "fetched_at": "2026-03-26T09:30:00.000Z",
+    "price": 449,
+    "source": "v3.alapi.cn",
+    "source_mode": "api",
+    "currency": "CNY",
+    "unit": "g",
     "metal": "platinum"
   },
   "change24h": {
-    "absolute": 3.4374,
-    "percent": 0.31
+    "absolute": -3.2715,
+    "percent": -0.72
   },
   "dailyRange": {
-    "low": 1081.7345,
-    "high": 1099.1525
+    "low": 447.5508,
+    "high": 460.9491
   },
   "nextRefreshMinutes": 1
 }

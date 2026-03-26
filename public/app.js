@@ -2,6 +2,8 @@
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let staticMode = false;
 let toastTimer = null;
+let displayCurrency = 'USD';
+let displayUnit = 'oz';
 
 const DASHBOARD_METAL = (document.body.dataset.metal || 'gold').toLowerCase();
 
@@ -84,7 +86,11 @@ function staticPathFor(path) {
 
 function formatPrice(value, digits = 2) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return '--';
-  return `$${Number(value).toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
+  const number = Number(value);
+  const symbolMap = { CNY: '\u00A5', USD: '$', EUR: 'EUR ', GBP: 'GBP ' };
+  const locale = displayCurrency === 'CNY' ? 'zh-CN' : 'en-US';
+  const symbol = symbolMap[displayCurrency] || `${displayCurrency} `;
+  return `${symbol}${number.toLocaleString(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
 }
 
 function formatDateTime(value) {
@@ -657,5 +663,4 @@ function boot() {
 }
 
 boot();
-
 
