@@ -22,6 +22,7 @@
             <span class="metric-label">最新价格</span>
             <strong id="latestPrice">--</strong>
             <span id="lastUpdated">等待首次采集...</span>
+            <span id="freshnessBadge" class="freshness-badge">数据新鲜度：--</span>
           </section>
           <section class="metric-card">
             <span class="metric-label">24 小时涨跌</span>
@@ -45,11 +46,12 @@
             </div>
             <div class="panel-actions">
               <span class="hint">滚轮缩放，按住拖拽平移</span>
+              <button id="resetIntraday" class="ghost-btn secondary">重置视图</button>
               <button id="manualRefresh" class="ghost-btn">立即刷新数据</button>
             </div>
           </div>
           <div class="chart-shell">
-            <svg id="intradayChart" class="chart-svg" viewBox="0 0 960 360" preserveAspectRatio="none"></svg>
+            <svg id="intradayChart" class="chart-svg" viewBox="0 0 960 360" preserveAspectRatio="none" tabindex="0" aria-label="24小时金价分钟趋势图"></svg>
           </div>
           <p id="intradayMeta" class="chart-meta">加载中...</p>
         </section>
@@ -66,10 +68,11 @@
                 <button class="segmented-btn" data-range="3y">3 年</button>
                 <button class="segmented-btn" data-range="all">全部</button>
               </div>
+              <button id="resetMonthly" class="ghost-btn secondary">重置视图</button>
             </div>
           </div>
           <div class="chart-shell">
-            <svg id="monthlyChart" class="chart-svg" viewBox="0 0 960 360" preserveAspectRatio="none"></svg>
+            <svg id="monthlyChart" class="chart-svg" viewBox="0 0 960 360" preserveAspectRatio="none" tabindex="0" aria-label="历年月度金价趋势图"></svg>
           </div>
           <p id="monthlyMeta" class="chart-meta">加载中...</p>
         </section>
@@ -131,5 +134,6 @@
 
     <script src="./config.js"></script>
     <script src="./app.js"></script>
+    <div id="appToast" class="app-toast" aria-live="polite"></div>
   </body>
 </html>

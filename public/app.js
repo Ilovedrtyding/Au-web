@@ -1,6 +1,7 @@
 ﻿const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl ? window.APP_CONFIG.apiBaseUrl : '').replace(/\/$/, '');
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let staticMode = false;
+let toastTimer = null;
 const monthlyRange = { value: '1y' };
 const chartState = {
   intraday: { rows: [], zoomStart: 0, zoomEnd: 0, minVisible: 30 },
@@ -36,6 +37,40 @@ function setText(id, value, className = '') {
   if (!el) return;
   el.textContent = value;
   el.className = className;
+}
+
+function showToast(message) {
+  const toast = document.getElementById('appToast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+  if (toastTimer) {
+    clearTimeout(toastTimer);
+  }
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2600);
+}
+
+function updateFreshnessBadge(timestamp) {
+  const badge = document.getElementById('freshnessBadge');
+  if (!badge) return;
+  if (!timestamp) {
+    badge.textContent = '数据新鲜度：--';
+    badge.className = 'freshness-badge';
+    return;
+  }
+
+  const diffMinutes = Math.max(0, Math.round((Date.now() - new Date(timestamp).getTime()) / 60000));
+  let level = 'fresh';
+  let text = `数据新鲜度：${diffMinutes} 分钟前`;
+  if (diffMinutes > 20) {
+    level = 'stale';
+  } else if (diffMinutes > 8) {
+    level = 'warn';
+  }
+  badge.textContent = text;
+  badge.className = `freshness-badge ${level}`;
 }
 
 async function fetchJson(path, options) {
@@ -120,7 +155,7 @@ function panChart(key, delta) {
   const state = chartState[key];
   const total = state.rows.length;
   const size = state.zoomEnd - state.zoomStart + 1;
-  let nextStart = clamp(state.zoomStart + delta, 0, Math.max(0, total - size));
+  const nextStart = clamp(state.zoomStart + delta, 0, Math.max(0, total - size));
   setZoomRange(key, nextStart, nextStart + size - 1);
 }
 
@@ -318,9 +353,11 @@ async function loadSummary() {
   if (summary.latest) {
     setText('latestPrice', `${formatPrice(summary.latest.price)} / ${summary.latest.unit}`);
     setText('lastUpdated', `最近更新：${formatDateTime(summary.latest.fetched_at)} · 来源：钉子`);
+    updateFreshnessBadge(summary.latest.fetched_at);
   } else {
     setText('latestPrice', '--');
     setText('lastUpdated', '暂无数据');
+    updateFreshnessBadge(null);
   }
 
   if (summary.change24h) {
@@ -337,7 +374,7 @@ async function loadSummary() {
   setText('totalSnapshots', String(status.totalSnapshots ?? '--'));
   setText('firstSnapshotAt', formatDateTime(status.firstSnapshotAt));
   setText('latestSnapshotAt', formatDateTime(status.latestSnapshotAt));
-  setText('modeHint', staticMode ? '当前为 Vercel 静态模式，数据由 GitHub Actions 定时更新。' : '当前为本地/API 模式。');
+  setText('modeHint', staticMode ? '当前为 Vercel 静态模式，数据由 GitHub Actions 定时更新。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。' : '当前为本地/API 模式。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。');
 }
 
 function renderIntradayChart() {
@@ -364,7 +401,7 @@ function renderIntradayChart() {
     tooltipTitle(row) {
       return new Date(row.fetched_at).toLocaleString('zh-CN', { hour12: false });
     },
-    tooltipSubtitle(row) {
+    tooltipSubtitle() {
       return '分钟点';
     },
     rerender() {
@@ -377,10 +414,24 @@ function renderIntradayChart() {
   }
 }
 
+function resetIntradayZoom() {
+  if (!chartState.intraday.rows.length) return;
+  setZoomRange('intraday', Math.max(0, chartState.intraday.rows.length - 360), chartState.intraday.rows.length - 1);
+  renderIntradayChart();
+}
+
 async function loadIntradayChart() {
   const rows = await fetchJson('/api/chart/intraday');
+  const hadRows = chartState.intraday.rows.length > 0;
+  const prevVisible = Math.max(chartState.intraday.minVisible, chartState.intraday.zoomEnd - chartState.intraday.zoomStart + 1);
+
   chartState.intraday.rows = rows;
-  setZoomRange('intraday', Math.max(0, rows.length - 360), rows.length - 1);
+
+  if (!hadRows) {
+    setZoomRange('intraday', Math.max(0, rows.length - 360), rows.length - 1);
+  } else {
+    setZoomRange('intraday', Math.max(0, rows.length - prevVisible), rows.length - 1);
+  }
   renderIntradayChart();
 }
 
@@ -420,6 +471,12 @@ function renderMonthlyChart() {
   }
 }
 
+function resetMonthlyZoom() {
+  if (!chartState.monthly.rows.length) return;
+  setZoomRange('monthly', 0, chartState.monthly.rows.length - 1);
+  renderMonthlyChart();
+}
+
 async function loadMonthlyChart() {
   const allRows = await fetchJson('/api/chart/monthly?months=120');
   const rows = resolveMonthlyRows(allRows);
@@ -428,13 +485,53 @@ async function loadMonthlyChart() {
   renderMonthlyChart();
 }
 
+function setMonthlyRange(nextRange) {
+  monthlyRange.value = nextRange;
+  document.querySelectorAll('#monthlyRangeSwitcher .segmented-btn').forEach((item) => {
+    item.classList.toggle('active', item.dataset.range === nextRange);
+  });
+  loadMonthlyChart().catch((error) => {
+    showToast('月度图更新失败，请稍后重试');
+    console.error('Monthly chart reload failed:', error);
+  });
+}
+
 function initializeMonthlyRangeSwitcher() {
   document.querySelectorAll('#monthlyRangeSwitcher .segmented-btn').forEach((button) => {
     button.addEventListener('click', () => {
-      monthlyRange.value = button.dataset.range;
-      document.querySelectorAll('#monthlyRangeSwitcher .segmented-btn').forEach((item) => item.classList.toggle('active', item === button));
-      loadMonthlyChart().catch((error) => console.error('Monthly chart reload failed:', error));
+      setMonthlyRange(button.dataset.range);
     });
+  });
+}
+
+function initializeKeyboardShortcuts() {
+  window.addEventListener('keydown', (event) => {
+    if (event.target && ['INPUT', 'TEXTAREA'].includes(event.target.tagName)) return;
+    const key = event.key.toLowerCase();
+    if (key === 'r') {
+      event.preventDefault();
+      manualRefresh();
+    }
+    if (key === 'i') {
+      event.preventDefault();
+      resetIntradayZoom();
+    }
+    if (key === 'm') {
+      event.preventDefault();
+      resetMonthlyZoom();
+    }
+    if (key === '1') {
+      event.preventDefault();
+      setMonthlyRange('1y');
+    }
+    if (key === '3') {
+      event.preventDefault();
+      setMonthlyRange('3y');
+    }
+    if (key === '0') {
+      event.preventDefault();
+      setMonthlyRange('all');
+    }
   });
 }
 
@@ -472,7 +569,9 @@ async function manualRefresh() {
       await fetchJson('/api/refresh', { method: 'POST' });
     }
     await refreshAll();
+    showToast('数据已更新');
   } catch (error) {
+    showToast('刷新失败，已保留当前数据');
     await refreshAll();
   } finally {
     button.disabled = false;
@@ -481,8 +580,17 @@ async function manualRefresh() {
 }
 
 document.getElementById('manualRefresh').addEventListener('click', manualRefresh);
+document.getElementById('resetIntraday').addEventListener('click', resetIntradayZoom);
+document.getElementById('resetMonthly').addEventListener('click', resetMonthlyZoom);
 initializeMonthlyRangeSwitcher();
-refreshAll().catch((error) => console.error('Dashboard refresh failed:', error));
+initializeKeyboardShortcuts();
+refreshAll().catch((error) => {
+  showToast('首次加载失败，请刷新重试');
+  console.error('Dashboard refresh failed:', error);
+});
 setInterval(() => {
-  refreshAll().catch((error) => console.error('Scheduled dashboard refresh failed:', error));
+  refreshAll().catch((error) => {
+    showToast('自动刷新失败，将在下个周期重试');
+    console.error('Scheduled dashboard refresh failed:', error);
+  });
 }, 60 * 1000);
