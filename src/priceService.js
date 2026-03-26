@@ -67,15 +67,9 @@ async function fetchFromAlapiGold() {
   let entry = payload;
   if (Array.isArray(payload)) {
     const prefer = process.env.ALAPI_GOLD_TYPE;
-    if (prefer) {
-      entry = payload.find((item) => [item.name, item.type, item.title, item.brand, item.symbol].includes(prefer)) || payload[0];
-    } else {
-      entry = payload.find((item) => {
-        const unit = (item.unit || item.units || '').toString().toLowerCase();
-        const currency = (item.currency || item.money || item.currency_code || '').toString().toUpperCase();
-        return (currency === 'USD' || currency === '$') && (unit.includes('oz') || unit.includes('ounce'));
-      }) || payload[0];
-    }
+    entry = prefer
+      ? payload.find((item) => [item.name, item.type, item.title, item.brand, item.symbol].includes(prefer)) || payload[0]
+      : payload[0];
   }
 
   const price = pickNumeric(entry, ['price', 'now_price', 'new_price', 'last_price', 'latest_price', 'latest', 'value', 'price_usd', 'usd_price']);
@@ -83,21 +77,12 @@ async function fetchFromAlapiGold() {
     throw new Error('ALAPI did not provide numeric price');
   }
 
-  const unit = (entry.unit || entry.units || '').toString().toLowerCase();
-  const currency = (entry.currency || entry.money || entry.currency_code || 'USD').toString().toUpperCase();
-  if (currency !== 'USD' && currency !== '$') {
-    throw new Error('ALAPI currency not USD: ' + currency);
-  }
-  if (unit && !(unit.includes('oz') || unit.includes('ounce'))) {
-    throw new Error('ALAPI unit not oz: ' + unit);
-  }
-
   return {
     source: 'v3.alapi.cn',
     sourceMode: 'api',
     symbol: 'XAU',
-    currency: 'USD',
-    unit: 'oz',
+    currency: String(entry.currency || entry.money || entry.currency_code || 'USD').toUpperCase(),
+    unit: String(entry.unit || entry.units || 'oz'),
     price: Number(price),
     fetchedAt: parseTimestamp(entry.time || entry.timestamp || entry.updated_at || new Date()).toISOString(),
     rawPayload: entry
@@ -134,20 +119,13 @@ async function fetchFromScraper() {
 
 async function fetchCurrentPrice() {
   const preferredMode = (process.env.PRICE_SOURCE_MODE || 'alapi').toLowerCase();
-  const attempts = preferredMode === 'goldapi_com'
-    ? [fetchFromGoldApi, fetchFromAlapiGold, fetchFromScraper]
-    : [fetchFromAlapiGold, fetchFromGoldApi, fetchFromScraper];
-
-  let lastError = null;
-  for (const attempt of attempts) {
-    try {
-      return await attempt();
-    } catch (error) {
-      lastError = error;
-    }
+  if (preferredMode === 'alapi') {
+    return fetchFromAlapiGold();
   }
-
-  throw lastError || new Error('No price source available.');
+  if (preferredMode === 'goldapi_com') {
+    return fetchFromGoldApi();
+  }
+  return fetchFromScraper();
 }
 
 function insertSnapshot(db, snapshot) {
@@ -316,3 +294,5 @@ module.exports = {
   refreshPrices,
   startScheduler
 };
+
+
