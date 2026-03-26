@@ -4,13 +4,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'
   workflow_dispatch:
-
-concurrency:
-  group: refresh-market-data
-  cancel-in-progress: false
 
 permissions:
   contents: write

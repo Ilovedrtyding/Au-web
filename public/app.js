@@ -429,7 +429,7 @@ async function loadSummary() {
   setText(
     'modeHint',
     staticMode
-      ? `当前为 Vercel 静态模式，${METAL_LABEL}数据由 GitHub Actions 每 30 分钟自动同步一次；页面仍每 1 分钟重新读取数据文件。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。`
+      ? `当前为 Vercel 静态模式，${METAL_LABEL}数据以你本地更新后推送到云端为准；页面每 1 分钟重新读取已发布的数据文件。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。`
       : `当前为本地/API 模式（${METAL_LABEL}）。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。`
   );
 }
@@ -657,4 +657,5 @@ function boot() {
 }
 
 boot();
+
 
