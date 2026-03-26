@@ -1,0 +1,66 @@
+﻿[
+  {
+    "date": "2026-02-26",
+    "institution": "World Gold Council",
+    "expert": "WGC 研究团队（Cross-Asset 报告）",
+    "view": "认为在跨资产估值偏高、宏观风险持续的背景下，黄金的对冲属性在 2026 年仍有配置价值，尤其在股债相关性上升时更具吸引力。",
+    "bias": "偏多",
+    "link": "https://www.gold.org/goldhub/research/why-gold-2026-cross-asset-perspective"
+  },
+  {
+    "date": "2026-02-04",
+    "institution": "Reuters Poll",
+    "expert": "30 位分析师与交易员（路透调查）",
+    "view": "路透调查给出的 2026 年黄金年均预估中值提升至约 4746.5 美元/盎司，核心逻辑是地缘不确定性与央行购金仍在持续。",
+    "bias": "偏多",
+    "link": "https://www.kitco.com/news/off-the-wire/2026-02-04/analysts-ramp-gold-forecasts-global-uncertainties-mount-reuters-poll"
+  },
+  {
+    "date": "2026-02-04",
+    "institution": "GoldCore / Reuters",
+    "expert": "David Russell（GoldCore CEO）",
+    "view": "强调全球制度与地缘稳定性正在被重新定价，黄金作为风险对冲资产的战略地位被进一步强化。",
+    "bias": "偏多",
+    "link": "https://sg.finance.yahoo.com/news/analysts-ramp-gold-forecasts-global-125456611.html"
+  },
+  {
+    "date": "2026-02-04",
+    "institution": "Deutsche Bank / Reuters",
+    "expert": "德银分析师团队",
+    "view": "在路透报道中维持对黄金主题驱动的正面判断，认为配置黄金的核心逻辑在 2026 年并未改变。",
+    "bias": "偏多",
+    "link": "https://www.mining.com/web/analysts-ramp-up-gold-price-forecasts-as-global-uncertainties-mount/"
+  },
+  {
+    "date": "2026-01-29",
+    "institution": "World Gold Council",
+    "expert": "WGC《Gold Demand Trends》作者团队",
+    "view": "预计 2026 年央行需求和投资需求仍有支撑，但高金价可能继续压制部分首饰吨数需求。",
+    "bias": "中性偏多",
+    "link": "https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/outlook"
+  },
+  {
+    "date": "2026-01-13",
+    "institution": "Citigroup",
+    "expert": "Kenny Hu 领衔策略团队",
+    "view": "短期将目标上调至高位区间，理由是地缘风险、实物市场偏紧和政策不确定性；但也提示后续若风险缓和，金价可能出现阶段性回撤。",
+    "bias": "高位震荡",
+    "link": "https://www.kitco.com/news/article/2026-01-13/gold-will-hit-5000oz-silver-100oz-march-gold-will-be-vulnerable-correction"
+  },
+  {
+    "date": "2025-12-04",
+    "institution": "World Gold Council",
+    "expert": "Juan Carlos Artigas 等（Outlook 2026）",
+    "view": "基准情景下黄金可能偏区间运行；若增长走弱并继续降息，黄金存在进一步上行空间；若风险显著回落，黄金可能承压。",
+    "bias": "情景分化",
+    "link": "https://www.gold.org/goldhub/research/gold-outlook-2026"
+  },
+  {
+    "date": "2025-10-27",
+    "institution": "Reuters Poll",
+    "expert": "Nitesh Shah（WisdomTree）",
+    "view": "认为在高不确定性环境下，官方部门和投资资金流将继续成为黄金的关键支撑力量。",
+    "bias": "偏多",
+    "link": "https://www.investing.com/news/economy-news/annual-2026-gold-price-forecast-tops-4000oz-for-first-time-reuters-poll-4310182"
+  }
+]

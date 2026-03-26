@@ -18,7 +18,8 @@ function staticPathFor(path) {
     '/api/status': './data/status.json',
     '/api/chart/intraday': './data/intraday.json',
     '/api/chart/monthly?months=120': './data/monthly.json',
-    '/api/history/daily?days=45': './data/daily.json'
+    '/api/history/daily?days=45': './data/daily.json',
+    '/api/opinions': './data/opinions.json'
   };
   return mapping[path] || null;
 }
@@ -535,6 +536,29 @@ function initializeKeyboardShortcuts() {
   });
 }
 
+
+async function loadOpinions() {
+  const opinions = await fetchJson('/api/opinions');
+  const container = document.getElementById('opinionsList');
+  if (!container) return;
+
+  container.innerHTML = opinions.map((item) => {
+    const safeLink = item.link ? `<a class="opinion-link" href="${item.link}" target="_blank" rel="noopener noreferrer">来源链接</a>` : '';
+    return `
+      <article class="opinion-card">
+        <div class="opinion-top">
+          <span class="opinion-source">${item.institution || '机构观点'}</span>
+          <span class="opinion-date">${item.date || '--'}</span>
+        </div>
+        <div class="opinion-name">${item.expert || '市场研究员'}</div>
+        <p class="opinion-text">${item.view || ''}</p>
+        <div>
+          <span class="opinion-tag">${item.bias || '中性'}</span>${safeLink}
+        </div>
+      </article>
+    `;
+  }).join('');
+}
 async function loadHistoryTable() {
   const rows = await fetchJson('/api/history/daily?days=45');
   const tbody = document.getElementById('historyTable');
@@ -557,7 +581,7 @@ async function loadHistoryTable() {
 }
 
 async function refreshAll() {
-  await Promise.all([loadSummary(), loadIntradayChart(), loadMonthlyChart(), loadHistoryTable()]);
+  await Promise.all([loadSummary(), loadIntradayChart(), loadMonthlyChart(), loadHistoryTable(), loadOpinions()]);
 }
 
 async function manualRefresh() {
@@ -594,3 +618,6 @@ setInterval(() => {
     console.error('Scheduled dashboard refresh failed:', error);
   });
 }, 60 * 1000);
+
+
+
