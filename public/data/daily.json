@@ -1,12 +1,23 @@
 [
   {
+    "date": "2026-03-26",
+    "open": 4497.899902,
+    "close": 4537.200195,
+    "low": 4497.899902,
+    "high": 4537.200195,
+    "average": 4498.54,
+    "points": 61,
+    "delta": 39.3,
+    "deltaPercent": 0.87
+  },
+  {
     "date": "2026-03-25",
     "open": 2441.45,
     "close": 4497.899902,
     "low": 2441.45,
     "high": 4582.600098,
-    "average": 3705.78,
-    "points": 1427,
+    "average": 3712.93,
+    "points": 1440,
     "delta": 2056.45,
     "deltaPercent": 84.23
   },
@@ -646,17 +657,6 @@
     "average": 2440.51,
     "points": 4,
     "delta": 13.28,
-    "deltaPercent": 0.55
-  },
-  {
-    "date": "2026-01-25",
-    "open": 2426.54,
-    "close": 2439.87,
-    "low": 2426.54,
-    "high": 2451.87,
-    "average": 2439.2,
-    "points": 4,
-    "delta": 13.33,
     "deltaPercent": 0.55
   }
 ]
