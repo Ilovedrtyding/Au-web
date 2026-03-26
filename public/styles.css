@@ -448,3 +448,105 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Institutional theme upgrade */
+:root {
+  --text: #f1efe9;
+  --muted: #b2bece;
+  --accent: #d6b36a;
+  --accent-2: #8db8d7;
+  --border: rgba(214, 179, 106, 0.22);
+  --panel: linear-gradient(160deg, rgba(10, 24, 38, 0.9), rgba(8, 20, 32, 0.86));
+  --panel-soft: rgba(11, 27, 40, 0.74);
+}
+
+body {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(214, 179, 106, 0.16), transparent 32%),
+    radial-gradient(circle at 86% 18%, rgba(141, 184, 215, 0.14), transparent 34%),
+    linear-gradient(170deg, #08111b, #071421 52%, #081521);
+}
+
+h1, h2, h3 {
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+
+.hero-copy,
+.metric-card,
+.panel,
+.landing-card,
+.status-grid div,
+.table-wrap,
+.opinion-card,
+.compliance-card {
+  border-color: var(--border);
+  background: var(--panel);
+}
+
+.authority-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.official-seal {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(214, 179, 106, 0.45);
+  color: #f4e0ad;
+  background: rgba(214, 179, 106, 0.12);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+
+.compliance-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 18px;
+}
+
+.compliance-card {
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.compliance-card h3 {
+  margin: 0 0 10px;
+  color: #e9d9ab;
+  font-size: 16px;
+}
+
+.compliance-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.landing-card {
+  background: linear-gradient(150deg, rgba(214, 179, 106, 0.12), rgba(24, 48, 70, 0.34));
+}
+
+.top-nav a {
+  border-color: rgba(214, 179, 106, 0.36);
+}
+
+.top-nav a:hover {
+  border-color: rgba(214, 179, 106, 0.68);
+}
+
+thead th {
+  background: rgba(6, 18, 28, 0.96);
+}
+
+@media (max-width: 980px) {
+  .compliance-grid {
+    grid-template-columns: 1fr;
+  }
+}
