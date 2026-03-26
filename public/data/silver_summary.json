@@ -1,0 +1,20 @@
+{
+  "latest": {
+    "fetched_at": "2026-03-26T03:40:00.000Z",
+    "price": 71.983002,
+    "source": "api.gold-api.com",
+    "source_mode": "api",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "silver"
+  },
+  "change24h": {
+    "absolute": 40.433,
+    "percent": 128.16
+  },
+  "dailyRange": {
+    "low": 31.55,
+    "high": 71.983002
+  },
+  "nextRefreshMinutes": 5
+}

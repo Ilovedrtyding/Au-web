@@ -2,6 +2,14 @@
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let staticMode = false;
 let toastTimer = null;
+
+const DASHBOARD_METAL = (document.body.dataset.metal || 'gold').toLowerCase();
+const METAL_LABEL = DASHBOARD_METAL === 'silver' ? '白银' : '黄金';
+const DATA_PREFIX = DASHBOARD_METAL === 'silver' ? 'silver_' : '';
+const PALETTE = DASHBOARD_METAL === 'silver'
+  ? { area: 'chart-area-silver', line: 'chart-line-silver', point: '#d2dde7' }
+  : { area: 'chart-area-gold', line: 'chart-line-gold', point: '#f6c65b' };
+
 const monthlyRange = { value: '1y' };
 const chartState = {
   intraday: { rows: [], zoomStart: 0, zoomEnd: 0, minVisible: 30 },
@@ -14,12 +22,12 @@ function apiUrl(path) {
 
 function staticPathFor(path) {
   const mapping = {
-    '/api/summary': './data/summary.json',
-    '/api/status': './data/status.json',
-    '/api/chart/intraday': './data/intraday.json',
-    '/api/chart/monthly?months=120': './data/monthly.json',
-    '/api/history/daily?days=45': './data/daily.json',
-    '/api/opinions': './data/opinions.json'
+    '/api/summary': `./data/${DATA_PREFIX}summary.json`,
+    '/api/status': `./data/${DATA_PREFIX}status.json`,
+    '/api/chart/intraday': `./data/${DATA_PREFIX}intraday.json`,
+    '/api/chart/monthly?months=120': `./data/${DATA_PREFIX}monthly.json`,
+    '/api/history/daily?days=45': `./data/${DATA_PREFIX}daily.json`,
+    '/api/opinions': `./data/${DATA_PREFIX}opinions.json`
   };
   return mapping[path] || null;
 }
@@ -45,12 +53,8 @@ function showToast(message) {
   if (!toast) return;
   toast.textContent = message;
   toast.classList.add('show');
-  if (toastTimer) {
-    clearTimeout(toastTimer);
-  }
-  toastTimer = setTimeout(() => {
-    toast.classList.remove('show');
-  }, 2600);
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
 function updateFreshnessBadge(timestamp) {
@@ -64,13 +68,10 @@ function updateFreshnessBadge(timestamp) {
 
   const diffMinutes = Math.max(0, Math.round((Date.now() - new Date(timestamp).getTime()) / 60000));
   let level = 'fresh';
-  let text = `数据新鲜度：${diffMinutes} 分钟前`;
-  if (diffMinutes > 20) {
-    level = 'stale';
-  } else if (diffMinutes > 8) {
-    level = 'warn';
-  }
-  badge.textContent = text;
+  if (diffMinutes > 20) level = 'stale';
+  else if (diffMinutes > 8) level = 'warn';
+
+  badge.textContent = `数据新鲜度：${diffMinutes} 分钟前`;
   badge.className = `freshness-badge ${level}`;
 }
 
@@ -375,14 +376,19 @@ async function loadSummary() {
   setText('totalSnapshots', String(status.totalSnapshots ?? '--'));
   setText('firstSnapshotAt', formatDateTime(status.firstSnapshotAt));
   setText('latestSnapshotAt', formatDateTime(status.latestSnapshotAt));
-  setText('modeHint', staticMode ? '当前为 Vercel 静态模式，数据由 GitHub Actions 定时更新。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。' : '当前为本地/API 模式。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。');
+  setText(
+    'modeHint',
+    staticMode
+      ? `当前为 Vercel 静态模式，${METAL_LABEL}数据由 GitHub Actions 定时更新。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。`
+      : `当前为本地/API 模式（${METAL_LABEL}）。快捷键：R刷新，I/M重置图表，1/3/0切换月度区间。`
+  );
 }
 
 function renderIntradayChart() {
   const info = renderInteractiveChart('intradayChart', 'intraday', {
-    areaClass: 'chart-area-gold',
-    lineClass: 'chart-line-gold',
-    pointColor: '#f6c65b',
+    areaClass: PALETTE.area,
+    lineClass: PALETTE.line,
+    pointColor: PALETTE.point,
     pointRadius: 1.1,
     yTickCount: 7,
     yLabelFormatter(value) {
@@ -403,7 +409,7 @@ function renderIntradayChart() {
       return new Date(row.fetched_at).toLocaleString('zh-CN', { hour12: false });
     },
     tooltipSubtitle() {
-      return '分钟点';
+      return `${METAL_LABEL}分钟点`;
     },
     rerender() {
       renderIntradayChart();
@@ -427,7 +433,6 @@ async function loadIntradayChart() {
   const prevVisible = Math.max(chartState.intraday.minVisible, chartState.intraday.zoomEnd - chartState.intraday.zoomStart + 1);
 
   chartState.intraday.rows = rows;
-
   if (!hadRows) {
     setZoomRange('intraday', Math.max(0, rows.length - 360), rows.length - 1);
   } else {
@@ -438,9 +443,9 @@ async function loadIntradayChart() {
 
 function renderMonthlyChart() {
   const info = renderInteractiveChart('monthlyChart', 'monthly', {
-    areaClass: 'chart-area-teal',
-    lineClass: 'chart-line-teal',
-    pointColor: '#7ad3c8',
+    areaClass: DASHBOARD_METAL === 'silver' ? 'chart-area-silver-soft' : 'chart-area-teal',
+    lineClass: DASHBOARD_METAL === 'silver' ? 'chart-line-silver' : 'chart-line-teal',
+    pointColor: DASHBOARD_METAL === 'silver' ? '#d2dde7' : '#7ad3c8',
     pointRadius: 2.2,
     yTickCount: 7,
     yLabelFormatter(value) {
@@ -460,7 +465,7 @@ function renderMonthlyChart() {
       return `${row.bucket}`;
     },
     tooltipSubtitle() {
-      return '月度点';
+      return `${METAL_LABEL}月度点`;
     },
     rerender() {
       renderMonthlyChart();
@@ -499,9 +504,7 @@ function setMonthlyRange(nextRange) {
 
 function initializeMonthlyRangeSwitcher() {
   document.querySelectorAll('#monthlyRangeSwitcher .segmented-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      setMonthlyRange(button.dataset.range);
-    });
+    button.addEventListener('click', () => setMonthlyRange(button.dataset.range));
   });
 }
 
@@ -536,14 +539,15 @@ function initializeKeyboardShortcuts() {
   });
 }
 
-
 async function loadOpinions() {
   const opinions = await fetchJson('/api/opinions');
   const container = document.getElementById('opinionsList');
   if (!container) return;
 
   container.innerHTML = opinions.map((item) => {
-    const safeLink = item.link ? `<a class="opinion-link" href="${item.link}" target="_blank" rel="noopener noreferrer">来源链接</a>` : '';
+    const safeLink = item.link
+      ? `<a class="opinion-link" href="${item.link}" target="_blank" rel="noopener noreferrer">来源链接</a>`
+      : '';
     return `
       <article class="opinion-card">
         <div class="opinion-top">
@@ -552,13 +556,12 @@ async function loadOpinions() {
         </div>
         <div class="opinion-name">${item.expert || '市场研究员'}</div>
         <p class="opinion-text">${item.view || ''}</p>
-        <div>
-          <span class="opinion-tag">${item.bias || '中性'}</span>${safeLink}
-        </div>
+        <div><span class="opinion-tag">${item.bias || '中性'}</span>${safeLink}</div>
       </article>
     `;
   }).join('');
 }
+
 async function loadHistoryTable() {
   const rows = await fetchJson('/api/history/daily?days=45');
   const tbody = document.getElementById('historyTable');
@@ -603,21 +606,27 @@ async function manualRefresh() {
   }
 }
 
-document.getElementById('manualRefresh').addEventListener('click', manualRefresh);
-document.getElementById('resetIntraday').addEventListener('click', resetIntradayZoom);
-document.getElementById('resetMonthly').addEventListener('click', resetMonthlyZoom);
-initializeMonthlyRangeSwitcher();
-initializeKeyboardShortcuts();
-refreshAll().catch((error) => {
-  showToast('首次加载失败，请刷新重试');
-  console.error('Dashboard refresh failed:', error);
-});
-setInterval(() => {
+function boot() {
+  const required = ['manualRefresh', 'resetIntraday', 'resetMonthly', 'monthlyRangeSwitcher'];
+  if (required.some((id) => !document.getElementById(id))) return;
+
+  document.getElementById('manualRefresh').addEventListener('click', manualRefresh);
+  document.getElementById('resetIntraday').addEventListener('click', resetIntradayZoom);
+  document.getElementById('resetMonthly').addEventListener('click', resetMonthlyZoom);
+  initializeMonthlyRangeSwitcher();
+  initializeKeyboardShortcuts();
+
   refreshAll().catch((error) => {
-    showToast('自动刷新失败，将在下个周期重试');
-    console.error('Scheduled dashboard refresh failed:', error);
+    showToast('首次加载失败，请刷新重试');
+    console.error('Dashboard refresh failed:', error);
   });
-}, 60 * 1000);
 
+  setInterval(() => {
+    refreshAll().catch((error) => {
+      showToast('自动刷新失败，将在下个周期重试');
+      console.error('Scheduled dashboard refresh failed:', error);
+    });
+  }, 60 * 1000);
+}
 
-
+boot();

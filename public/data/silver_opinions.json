@@ -1,0 +1,26 @@
+﻿[
+  {
+    "date": "2026-03-10",
+    "institution": "Bullion Research Desk",
+    "expert": "市场策略组",
+    "view": "白银波动通常高于黄金，若工业需求回升与避险情绪并存，价格弹性可能更明显。",
+    "bias": "中性偏多",
+    "link": "https://www.lbma.org.uk/"
+  },
+  {
+    "date": "2026-02-21",
+    "institution": "Commodities Macro Watch",
+    "expert": "跨资产研究员",
+    "view": "白银对美元与利率预期较敏感，短线应关注宏观数据落地节奏。",
+    "bias": "高位震荡",
+    "link": "https://www.cmegroup.com/markets/metals/precious/silver.html"
+  },
+  {
+    "date": "2026-01-30",
+    "institution": "Precious Metals Insight",
+    "expert": "贵金属组合团队",
+    "view": "若金银比持续回落，白银相对黄金可能阶段性占优。",
+    "bias": "偏多",
+    "link": "https://www.kitco.com/silver-price-today-usa/"
+  }
+]
