@@ -1,7 +1,7 @@
 {
   "latest": {
-    "fetched_at": "2026-03-26T08:09:00.000Z",
-    "price": 1419,
+    "fetched_at": "2026-03-26T08:30:00.000Z",
+    "price": 1408,
     "source": "api.gold-api.com",
     "source_mode": "api",
     "currency": "USD",
@@ -9,8 +9,8 @@
     "metal": "palladium"
   },
   "change24h": {
-    "absolute": 152.2004,
-    "percent": 12.01
+    "absolute": 140.105,
+    "percent": 11.05
   },
   "dailyRange": {
     "low": 1259.6152,

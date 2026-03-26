@@ -1,194 +1,5 @@
 [
   {
-    "fetched_at": "2026-03-25T08:10:00.000Z",
-    "price": 1266.8342,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:11:00.000Z",
-    "price": 1266.871,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:12:00.000Z",
-    "price": 1266.9097,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:13:00.000Z",
-    "price": 1266.9505,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:14:00.000Z",
-    "price": 1266.9932,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:15:00.000Z",
-    "price": 1267.0378,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:16:00.000Z",
-    "price": 1267.0842,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:17:00.000Z",
-    "price": 1267.1325,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:18:00.000Z",
-    "price": 1267.1824,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:19:00.000Z",
-    "price": 1267.234,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:20:00.000Z",
-    "price": 1267.2873,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:21:00.000Z",
-    "price": 1267.342,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:22:00.000Z",
-    "price": 1267.3983,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:23:00.000Z",
-    "price": 1267.4561,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:24:00.000Z",
-    "price": 1267.5151,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:25:00.000Z",
-    "price": 1267.5756,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:26:00.000Z",
-    "price": 1267.6372,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:27:00.000Z",
-    "price": 1267.7,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:28:00.000Z",
-    "price": 1267.764,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:29:00.000Z",
-    "price": 1267.829,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
-    "fetched_at": "2026-03-25T08:30:00.000Z",
-    "price": 1267.895,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "palladium"
-  },
-  {
     "fetched_at": "2026-03-25T08:31:00.000Z",
     "price": 1267.9619,
     "source": "seeded-history",
@@ -12953,6 +12764,195 @@
   {
     "fetched_at": "2026-03-26T08:09:00.000Z",
     "price": 1419,
+    "source": "api.gold-api.com",
+    "source_mode": "api",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:10:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:11:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:12:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:13:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:14:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:15:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:16:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:17:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:18:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:19:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:20:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:21:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:22:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:23:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:24:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:25:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:26:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:27:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:28:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:29:00.000Z",
+    "price": 1419,
+    "source": "carry-forward",
+    "source_mode": "derived",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "palladium"
+  },
+  {
+    "fetched_at": "2026-03-26T08:30:00.000Z",
+    "price": 1408,
     "source": "api.gold-api.com",
     "source_mode": "api",
     "currency": "USD",
