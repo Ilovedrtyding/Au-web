@@ -1,8 +1,8 @@
 {
-  "metal": "gold",
+  "metal": "palladium",
   "totalSnapshots": 4316,
-  "firstSnapshotAt": "2024-04-04T11:04:27.968Z",
-  "latestSnapshotAt": "2026-03-26T05:03:00.000Z",
+  "firstSnapshotAt": "2024-04-04T10:51:29.525Z",
+  "latestSnapshotAt": "2026-03-26T04:50:00.000Z",
   "refreshIntervalMinutes": 1,
   "clientRefreshMinutes": 1,
   "deploymentMode": "static-vercel"

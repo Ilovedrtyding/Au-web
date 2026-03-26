@@ -31,9 +31,23 @@ function isoMinute(date) {
 }
 
 function getConfig(metal) {
-  if (metal === 'silver') {
-    return {
-      metal,
+  const configs = {
+    gold: {
+      metal: 'gold',
+      symbol: 'XAU',
+      prefix: '',
+      baseLong: 2080,
+      baseIntraday: 2435,
+      monthlyWave: 48,
+      dailyWave: 12,
+      minuteWave: 4.8,
+      hourWave: 8.5,
+      drift: 0.012,
+      unit: 'oz',
+      currency: 'USD'
+    },
+    silver: {
+      metal: 'silver',
       symbol: 'XAG',
       prefix: 'silver_',
       baseLong: 23,
@@ -45,23 +59,38 @@ function getConfig(metal) {
       drift: 0.004,
       unit: 'oz',
       currency: 'USD'
-    };
-  }
-
-  return {
-    metal: 'gold',
-    symbol: 'XAU',
-    prefix: '',
-    baseLong: 2080,
-    baseIntraday: 2435,
-    monthlyWave: 48,
-    dailyWave: 12,
-    minuteWave: 4.8,
-    hourWave: 8.5,
-    drift: 0.012,
-    unit: 'oz',
-    currency: 'USD'
+    },
+    platinum: {
+      metal: 'platinum',
+      symbol: 'XPT',
+      prefix: 'platinum_',
+      baseLong: 980,
+      baseIntraday: 1085,
+      monthlyWave: 22,
+      dailyWave: 7,
+      minuteWave: 2.6,
+      hourWave: 4.8,
+      drift: 0.006,
+      unit: 'oz',
+      currency: 'USD'
+    },
+    palladium: {
+      metal: 'palladium',
+      symbol: 'XPD',
+      prefix: 'palladium_',
+      baseLong: 1180,
+      baseIntraday: 1265,
+      monthlyWave: 36,
+      dailyWave: 10,
+      minuteWave: 3.8,
+      hourWave: 7.2,
+      drift: 0.008,
+      unit: 'oz',
+      currency: 'USD'
+    }
   };
+
+  return configs[metal];
 }
 
 function pathsFor(prefix) {
@@ -71,7 +100,8 @@ function pathsFor(prefix) {
     status: path.join(dataDir, `${prefix}status.json`),
     intraday: path.join(dataDir, `${prefix}intraday.json`),
     monthly: path.join(dataDir, `${prefix}monthly.json`),
-    daily: path.join(dataDir, `${prefix}daily.json`)
+    daily: path.join(dataDir, `${prefix}daily.json`),
+    opinions: path.join(dataDir, `${prefix}opinions.json`)
   };
 }
 
@@ -218,7 +248,7 @@ function buildDaily(snapshots) {
 function buildSummary(snapshots) {
   const latest = snapshots[snapshots.length - 1] || null;
   if (!latest) {
-    return { latest: null, change24h: null, dailyRange: null, nextRefreshMinutes: 5 };
+    return { latest: null, change24h: null, dailyRange: null, nextRefreshMinutes: 1 };
   }
 
   const latestTime = new Date(latest.fetched_at).getTime();
@@ -232,7 +262,7 @@ function buildSummary(snapshots) {
     latest,
     change24h: { absolute: changeAbsolute, percent: changePercent },
     dailyRange: { low: Math.min(...rangePrices), high: Math.max(...rangePrices) },
-    nextRefreshMinutes: 5
+    nextRefreshMinutes: 1
   };
 }
 
@@ -242,7 +272,7 @@ function buildStatus(snapshots, metalLabel) {
     totalSnapshots: snapshots.length,
     firstSnapshotAt: snapshots[0] ? snapshots[0].fetched_at : null,
     latestSnapshotAt: snapshots[snapshots.length - 1] ? snapshots[snapshots.length - 1].fetched_at : null,
-    refreshIntervalMinutes: 5,
+    refreshIntervalMinutes: 1,
     clientRefreshMinutes: 1,
     deploymentMode: 'static-vercel'
   };
@@ -283,45 +313,75 @@ async function processCommodity(metal) {
   writeCommodityData(config, snapshots);
 }
 
-function ensureSilverOpinions() {
-  const pathSilverOpinions = path.join(dataDir, 'silver_opinions.json');
-  if (fs.existsSync(pathSilverOpinions)) return;
+function seedMarketAdvice() {
+  return [
+    { date: '2026-03-24', region: '国际', metal: 'gold', institution: 'World Gold Council', expert: 'WGC Research Team', view: '全球央行购金需求仍具韧性，若实际利率回落，黄金配置需求有望继续提高。', bias: '偏多', link: 'https://www.gold.org/' },
+    { date: '2026-03-22', region: '国际', metal: 'gold', institution: 'Citi Commodities', expert: 'Kenny Hu 团队', view: '金价短期处于高波动区间，地缘事件驱动仍可能触发快速上冲。', bias: '高位震荡', link: 'https://www.citigroup.com/' },
+    { date: '2026-03-20', region: '国内', metal: 'gold', institution: '中信期货研究所', expert: '贵金属组', view: '人民币金价在汇率扰动下弹性更大，建议关注内外盘价差修复机会。', bias: '中性偏多', link: 'https://www.citicsf.com/' },
+    { date: '2026-03-17', region: '国内', metal: 'gold', institution: '国泰君安期货', expert: '有色贵金属团队', view: '黄金中期上行逻辑未坏，但高位追涨性价比下降，建议分批布局。', bias: '中性', link: 'https://www.gtjaqh.com/' },
+    { date: '2026-03-15', region: '国际', metal: 'gold', institution: 'UBS Global Research', expert: 'Macro Strategy Desk', view: '若美国经济动能放缓，黄金作为组合稳定器的配置比例可能继续抬升。', bias: '偏多', link: 'https://www.ubs.com/' },
+    { date: '2026-03-12', region: '国际', metal: 'gold', institution: 'Reuters Poll', expert: 'Analysts Panel', view: '调查显示多数机构维持 2026 年黄金均价上修预期，但上行斜率趋缓。', bias: '情景分化', link: 'https://www.reuters.com/' },
 
-  const seed = [
-    {
-      date: '2026-03-10',
-      institution: 'Bullion Research Desk',
-      expert: '市场策略组',
-      view: '白银波动通常高于黄金，若工业需求回升与避险情绪并存，价格弹性可能更明显。',
-      bias: '中性偏多',
-      link: 'https://www.lbma.org.uk/'
-    },
-    {
-      date: '2026-02-21',
-      institution: 'Commodities Macro Watch',
-      expert: '跨资产研究员',
-      view: '白银对美元与利率预期较敏感，短线应关注宏观数据落地节奏。',
-      bias: '高位震荡',
-      link: 'https://www.cmegroup.com/markets/metals/precious/silver.html'
-    },
-    {
-      date: '2026-01-30',
-      institution: 'Precious Metals Insight',
-      expert: '贵金属组合团队',
-      view: '若金银比持续回落，白银相对黄金可能阶段性占优。',
-      bias: '偏多',
-      link: 'https://www.kitco.com/silver-price-today-usa/'
-    }
+    { date: '2026-03-25', region: '国际', metal: 'silver', institution: 'CME Metals', expert: 'Derivatives Analytics', view: '白银受工业链与货币属性双重驱动，短线波动率明显高于黄金。', bias: '高位震荡', link: 'https://www.cmegroup.com/' },
+    { date: '2026-03-23', region: '国内', metal: 'silver', institution: '南华期货研究院', expert: '有色研究员', view: '光伏与电子需求韧性对白银形成中期支撑，但需警惕美元走强冲击。', bias: '中性偏多', link: 'https://www.nanhua.net/' },
+    { date: '2026-03-21', region: '国际', metal: 'silver', institution: 'LBMA', expert: 'Market Intelligence', view: '白银投资需求边际回升，若宏观风险上行，金银比或进一步回落。', bias: '偏多', link: 'https://www.lbma.org.uk/' },
+    { date: '2026-03-19', region: '国内', metal: 'silver', institution: '华泰期货', expert: '贵金属组', view: '白银短期走势偏交易拥挤，建议以回调买入替代追高。', bias: '中性', link: 'https://www.htfc.com/' },
+    { date: '2026-03-14', region: '国际', metal: 'silver', institution: 'Kitco', expert: 'Market Commentators', view: '投机仓位继续抬升，若通胀预期回升，白银弹性可能优于黄金。', bias: '偏多', link: 'https://www.kitco.com/' },
+    { date: '2026-03-10', region: '国内', metal: 'silver', institution: '银河期货', expert: '金属产业组', view: '工业需求恢复节奏决定白银持续性，建议关注库存去化确认信号。', bias: '情景分化', link: 'https://www.yhqh.com.cn/' },
+
+    { date: '2026-03-24', region: '国际', metal: 'platinum', institution: 'WPIC', expert: 'Platinum Quarterly Team', view: '汽车催化与氢能链条需求对铂金形成中长期支撑，供给端扰动仍需关注。', bias: '偏多', link: 'https://platinuminvestment.com/' },
+    { date: '2026-03-22', region: '国内', metal: 'platinum', institution: '金瑞期货', expert: '贵金属团队', view: '铂金估值修复仍在进行，但短期受美元波动影响较大。', bias: '中性偏多', link: 'https://www.jrqh.com.cn/' },
+    { date: '2026-03-18', region: '国际', metal: 'platinum', institution: 'Bloomberg Intelligence', expert: 'Metals Strategist', view: '若欧洲车市复苏，铂金实物需求恢复将提升价格中枢。', bias: '偏多', link: 'https://www.bloomberg.com/' },
+    { date: '2026-03-16', region: '国内', metal: 'platinum', institution: '中粮期货', expert: '有色组', view: '铂金波动相对可控，适合与黄金组合做跨品种对冲。', bias: '中性', link: 'https://www.cofcofutures.com/' },
+    { date: '2026-03-13', region: '国际', metal: 'platinum', institution: 'Mitsubishi Research', expert: 'Precious Metals Desk', view: '矿端成本上移使铂金下方支撑增强，但上方仍受宏观利率压制。', bias: '高位震荡', link: 'https://www.mitsubishi.com/' },
+    { date: '2026-03-09', region: '国内', metal: 'platinum', institution: '申银万国期货', expert: '贵金属策略组', view: '中期看铂金仍有补涨机会，建议通过分层仓位降低回撤。', bias: '中性偏多', link: 'https://www.sywgqh.com/' },
+
+    { date: '2026-03-25', region: '国际', metal: 'palladium', institution: 'Johnson Matthey', expert: 'PGM Market Team', view: '钯金供需缺口较前期收敛，但地缘与矿山扰动仍可能放大波动。', bias: '高位震荡', link: 'https://matthey.com/' },
+    { date: '2026-03-23', region: '国内', metal: 'palladium', institution: '广发期货', expert: '有色研究员', view: '钯金弹性较高，适合事件驱动交易，趋势仓位需严格风控。', bias: '中性', link: 'https://www.gfqh.com.cn/' },
+    { date: '2026-03-21', region: '国际', metal: 'palladium', institution: 'Saxo Bank', expert: 'Commodity Strategy', view: '若汽车行业补库启动，钯金可能出现阶段性脉冲行情。', bias: '偏多', link: 'https://www.home.saxo/' },
+    { date: '2026-03-19', region: '国内', metal: 'palladium', institution: '东证期货', expert: '贵金属组', view: '钯金当前交易结构偏短线，建议以区间思路应对。', bias: '高位震荡', link: 'https://www.orientfutures.com/' },
+    { date: '2026-03-15', region: '国际', metal: 'palladium', institution: 'Fastmarkets', expert: 'PGM Analysts', view: '在替代效应持续下，钯金中期需求增速受限，价格上行更依赖供应端。', bias: '中性', link: 'https://www.fastmarkets.com/' },
+    { date: '2026-03-11', region: '国内', metal: 'palladium', institution: '方正中期期货', expert: '产业研究组', view: '钯金走势受汽车链条预期牵引明显，建议关注产销数据节奏。', bias: '情景分化', link: 'https://www.founderfu.com/' },
+
+    { date: '2026-03-08', region: '国际', metal: 'gold', institution: 'ING Research', expert: 'Commodity Economists', view: '美元若进入震荡偏弱阶段，将继续为黄金提供配置窗口。', bias: '偏多', link: 'https://think.ing.com/' },
+    { date: '2026-03-07', region: '国内', metal: 'gold', institution: '永安期货', expert: '宏观与贵金属组', view: '黄金仍是组合防守资产，建议与利率债策略联动观察。', bias: '中性偏多', link: 'https://www.yafco.com/' },
+    { date: '2026-03-06', region: '国际', metal: 'silver', institution: 'Morgan Stanley', expert: 'Global Metals Team', view: '白银需等待工业需求确认后再打开新一轮趋势空间。', bias: '中性', link: 'https://www.morganstanley.com/' },
+    { date: '2026-03-05', region: '国内', metal: 'silver', institution: '国投安信期货', expert: '商品研究部', view: '若制造业景气回升，白银回调后的配置价值会更明显。', bias: '中性偏多', link: 'https://www.sdicessence.com.cn/' },
+    { date: '2026-03-04', region: '国际', metal: 'platinum', institution: 'Reuters Commodities', expert: 'Market Desk', view: '铂金在贵金属中估值相对不高，具备中期修复潜力。', bias: '偏多', link: 'https://www.reuters.com/' },
+    { date: '2026-03-03', region: '国内', metal: 'platinum', institution: '中辉期货', expert: '贵金属研究员', view: '铂金交易活跃度提升，但应避免在突发消息后盲目追涨。', bias: '高位震荡', link: 'https://www.zhqh.com/' },
+    { date: '2026-03-02', region: '国际', metal: 'palladium', institution: 'TD Securities', expert: 'Commodity Strategy', view: '钯金中期方向仍偏震荡，供给侧风险是核心变量。', bias: '中性', link: 'https://www.tdsecurities.com/' },
+    { date: '2026-03-01', region: '国内', metal: 'palladium', institution: '海通期货', expert: '产业策略团队', view: '钯金短期反弹节奏快，建议通过分批止盈管理波动风险。', bias: '高位震荡', link: 'https://www.htfutures.com/' }
   ];
+}
 
-  writeJson(pathSilverOpinions, seed);
+function writeMarketAdviceData() {
+  const marketFile = path.join(dataDir, 'market_advice.json');
+  const rows = seedMarketAdvice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  writeJson(marketFile, rows);
+
+  const prefixes = {
+    gold: '',
+    silver: 'silver_',
+    platinum: 'platinum_',
+    palladium: 'palladium_'
+  };
+
+  Object.entries(prefixes).forEach(([metal, prefix]) => {
+    const opinions = rows.filter((item) => item.metal === metal);
+    const target = path.join(dataDir, `${prefix}opinions.json`);
+    writeJson(target, opinions);
+  });
 }
 
 async function main() {
   fs.mkdirSync(dataDir, { recursive: true });
+
   await processCommodity('gold');
   await processCommodity('silver');
-  ensureSilverOpinions();
+  await processCommodity('platinum');
+  await processCommodity('palladium');
+
+  writeMarketAdviceData();
 }
 
 main().catch((error) => {

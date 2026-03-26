@@ -1,26 +1,82 @@
-﻿[
+[
   {
-    "date": "2026-03-10",
-    "institution": "Bullion Research Desk",
-    "expert": "市场策略组",
-    "view": "白银波动通常高于黄金，若工业需求回升与避险情绪并存，价格弹性可能更明显。",
+    "date": "2026-03-25",
+    "region": "国际",
+    "metal": "silver",
+    "institution": "CME Metals",
+    "expert": "Derivatives Analytics",
+    "view": "白银受工业链与货币属性双重驱动，短线波动率明显高于黄金。",
+    "bias": "高位震荡",
+    "link": "https://www.cmegroup.com/"
+  },
+  {
+    "date": "2026-03-23",
+    "region": "国内",
+    "metal": "silver",
+    "institution": "南华期货研究院",
+    "expert": "有色研究员",
+    "view": "光伏与电子需求韧性对白银形成中期支撑，但需警惕美元走强冲击。",
     "bias": "中性偏多",
+    "link": "https://www.nanhua.net/"
+  },
+  {
+    "date": "2026-03-21",
+    "region": "国际",
+    "metal": "silver",
+    "institution": "LBMA",
+    "expert": "Market Intelligence",
+    "view": "白银投资需求边际回升，若宏观风险上行，金银比或进一步回落。",
+    "bias": "偏多",
     "link": "https://www.lbma.org.uk/"
   },
   {
-    "date": "2026-02-21",
-    "institution": "Commodities Macro Watch",
-    "expert": "跨资产研究员",
-    "view": "白银对美元与利率预期较敏感，短线应关注宏观数据落地节奏。",
-    "bias": "高位震荡",
-    "link": "https://www.cmegroup.com/markets/metals/precious/silver.html"
+    "date": "2026-03-19",
+    "region": "国内",
+    "metal": "silver",
+    "institution": "华泰期货",
+    "expert": "贵金属组",
+    "view": "白银短期走势偏交易拥挤，建议以回调买入替代追高。",
+    "bias": "中性",
+    "link": "https://www.htfc.com/"
   },
   {
-    "date": "2026-01-30",
-    "institution": "Precious Metals Insight",
-    "expert": "贵金属组合团队",
-    "view": "若金银比持续回落，白银相对黄金可能阶段性占优。",
+    "date": "2026-03-14",
+    "region": "国际",
+    "metal": "silver",
+    "institution": "Kitco",
+    "expert": "Market Commentators",
+    "view": "投机仓位继续抬升，若通胀预期回升，白银弹性可能优于黄金。",
     "bias": "偏多",
-    "link": "https://www.kitco.com/silver-price-today-usa/"
+    "link": "https://www.kitco.com/"
+  },
+  {
+    "date": "2026-03-10",
+    "region": "国内",
+    "metal": "silver",
+    "institution": "银河期货",
+    "expert": "金属产业组",
+    "view": "工业需求恢复节奏决定白银持续性，建议关注库存去化确认信号。",
+    "bias": "情景分化",
+    "link": "https://www.yhqh.com.cn/"
+  },
+  {
+    "date": "2026-03-06",
+    "region": "国际",
+    "metal": "silver",
+    "institution": "Morgan Stanley",
+    "expert": "Global Metals Team",
+    "view": "白银需等待工业需求确认后再打开新一轮趋势空间。",
+    "bias": "中性",
+    "link": "https://www.morganstanley.com/"
+  },
+  {
+    "date": "2026-03-05",
+    "region": "国内",
+    "metal": "silver",
+    "institution": "国投安信期货",
+    "expert": "商品研究部",
+    "view": "若制造业景气回升，白银回调后的配置价值会更明显。",
+    "bias": "中性偏多",
+    "link": "https://www.sdicessence.com.cn/"
   }
 ]

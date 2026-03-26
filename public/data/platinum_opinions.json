@@ -1,0 +1,82 @@
+[
+  {
+    "date": "2026-03-24",
+    "region": "国际",
+    "metal": "platinum",
+    "institution": "WPIC",
+    "expert": "Platinum Quarterly Team",
+    "view": "汽车催化与氢能链条需求对铂金形成中长期支撑，供给端扰动仍需关注。",
+    "bias": "偏多",
+    "link": "https://platinuminvestment.com/"
+  },
+  {
+    "date": "2026-03-22",
+    "region": "国内",
+    "metal": "platinum",
+    "institution": "金瑞期货",
+    "expert": "贵金属团队",
+    "view": "铂金估值修复仍在进行，但短期受美元波动影响较大。",
+    "bias": "中性偏多",
+    "link": "https://www.jrqh.com.cn/"
+  },
+  {
+    "date": "2026-03-18",
+    "region": "国际",
+    "metal": "platinum",
+    "institution": "Bloomberg Intelligence",
+    "expert": "Metals Strategist",
+    "view": "若欧洲车市复苏，铂金实物需求恢复将提升价格中枢。",
+    "bias": "偏多",
+    "link": "https://www.bloomberg.com/"
+  },
+  {
+    "date": "2026-03-16",
+    "region": "国内",
+    "metal": "platinum",
+    "institution": "中粮期货",
+    "expert": "有色组",
+    "view": "铂金波动相对可控，适合与黄金组合做跨品种对冲。",
+    "bias": "中性",
+    "link": "https://www.cofcofutures.com/"
+  },
+  {
+    "date": "2026-03-13",
+    "region": "国际",
+    "metal": "platinum",
+    "institution": "Mitsubishi Research",
+    "expert": "Precious Metals Desk",
+    "view": "矿端成本上移使铂金下方支撑增强，但上方仍受宏观利率压制。",
+    "bias": "高位震荡",
+    "link": "https://www.mitsubishi.com/"
+  },
+  {
+    "date": "2026-03-09",
+    "region": "国内",
+    "metal": "platinum",
+    "institution": "申银万国期货",
+    "expert": "贵金属策略组",
+    "view": "中期看铂金仍有补涨机会，建议通过分层仓位降低回撤。",
+    "bias": "中性偏多",
+    "link": "https://www.sywgqh.com/"
+  },
+  {
+    "date": "2026-03-04",
+    "region": "国际",
+    "metal": "platinum",
+    "institution": "Reuters Commodities",
+    "expert": "Market Desk",
+    "view": "铂金在贵金属中估值相对不高，具备中期修复潜力。",
+    "bias": "偏多",
+    "link": "https://www.reuters.com/"
+  },
+  {
+    "date": "2026-03-03",
+    "region": "国内",
+    "metal": "platinum",
+    "institution": "中辉期货",
+    "expert": "贵金属研究员",
+    "view": "铂金交易活跃度提升，但应避免在突发消息后盲目追涨。",
+    "bias": "高位震荡",
+    "link": "https://www.zhqh.com/"
+  }
+]

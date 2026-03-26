@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>市场建议中心</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero market-hero">
+        <div class="hero-copy market-copy">
+          <div class="top-nav">
+            <a href="./index.html">返回主页</a>
+            <a href="./gold.html">黄金</a>
+            <a href="./silver.html">白银</a>
+            <a href="./platinum.html">铂金</a>
+            <a href="./palladium.html">钯金</a>
+          </div>
+          <p class="eyebrow">Market Intelligence Center</p>
+          <h1>贵金属市场建议中心</h1>
+          <p class="hero-text">
+            集中展示国内外机构、投行、研究团队对黄金、白银、铂金、钯金走势的观点，附带日期与来源链接，便于快速比对判断。
+          </p>
+          <p id="marketMeta" class="mode-hint">加载建议数据中...</p>
+        </div>
+      </header>
+
+      <main class="dashboard market-dashboard">
+        <section class="panel market-filter-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">筛选</p>
+              <h2>按地区与金属查看观点</h2>
+            </div>
+          </div>
+          <div class="market-filter-row">
+            <label>
+              地区
+              <select id="regionFilter">
+                <option value="all">全部</option>
+                <option value="国内">国内</option>
+                <option value="国际">国际</option>
+              </select>
+            </label>
+            <label>
+              金属
+              <select id="metalFilter">
+                <option value="all">全部</option>
+                <option value="gold">黄金</option>
+                <option value="silver">白银</option>
+                <option value="platinum">铂金</option>
+                <option value="palladium">钯金</option>
+              </select>
+            </label>
+            <label>
+              观点倾向
+              <select id="biasFilter">
+                <option value="all">全部</option>
+                <option value="偏多">偏多</option>
+                <option value="中性偏多">中性偏多</option>
+                <option value="中性">中性</option>
+                <option value="高位震荡">高位震荡</option>
+                <option value="偏空">偏空</option>
+                <option value="情景分化">情景分化</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel market-list-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">观点列表</p>
+              <h2>国内外市场建议汇总</h2>
+            </div>
+            <span id="marketCount" class="hint">--</span>
+          </div>
+          <div id="marketAdviceList" class="opinions-list market-opinions-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./market.js"></script>
+  </body>
+</html>

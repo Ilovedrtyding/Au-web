@@ -1,20 +1,20 @@
 {
   "latest": {
-    "fetched_at": "2026-03-26T05:03:00.000Z",
-    "price": 2455.5391,
+    "fetched_at": "2026-03-26T04:50:00.000Z",
+    "price": 1095.3784,
     "source": "seeded-history",
     "source_mode": "seed",
     "currency": "USD",
     "unit": "oz",
-    "metal": "gold"
+    "metal": "platinum"
   },
   "change24h": {
-    "absolute": 12.0391,
-    "percent": 0.49
+    "absolute": 5.5784,
+    "percent": 0.51
   },
   "dailyRange": {
-    "low": 2429.5943,
-    "high": 2461.9307
+    "low": 1081.7345,
+    "high": 1099.1525
   },
   "nextRefreshMinutes": 1
 }

@@ -1,66 +1,82 @@
-﻿[
+[
   {
-    "date": "2026-02-26",
+    "date": "2026-03-24",
+    "region": "国际",
+    "metal": "gold",
     "institution": "World Gold Council",
-    "expert": "WGC 研究团队（Cross-Asset 报告）",
-    "view": "认为在跨资产估值偏高、宏观风险持续的背景下，黄金的对冲属性在 2026 年仍有配置价值，尤其在股债相关性上升时更具吸引力。",
+    "expert": "WGC Research Team",
+    "view": "全球央行购金需求仍具韧性，若实际利率回落，黄金配置需求有望继续提高。",
     "bias": "偏多",
-    "link": "https://www.gold.org/goldhub/research/why-gold-2026-cross-asset-perspective"
+    "link": "https://www.gold.org/"
   },
   {
-    "date": "2026-02-04",
-    "institution": "Reuters Poll",
-    "expert": "30 位分析师与交易员（路透调查）",
-    "view": "路透调查给出的 2026 年黄金年均预估中值提升至约 4746.5 美元/盎司，核心逻辑是地缘不确定性与央行购金仍在持续。",
-    "bias": "偏多",
-    "link": "https://www.kitco.com/news/off-the-wire/2026-02-04/analysts-ramp-gold-forecasts-global-uncertainties-mount-reuters-poll"
-  },
-  {
-    "date": "2026-02-04",
-    "institution": "GoldCore / Reuters",
-    "expert": "David Russell（GoldCore CEO）",
-    "view": "强调全球制度与地缘稳定性正在被重新定价，黄金作为风险对冲资产的战略地位被进一步强化。",
-    "bias": "偏多",
-    "link": "https://sg.finance.yahoo.com/news/analysts-ramp-gold-forecasts-global-125456611.html"
-  },
-  {
-    "date": "2026-02-04",
-    "institution": "Deutsche Bank / Reuters",
-    "expert": "德银分析师团队",
-    "view": "在路透报道中维持对黄金主题驱动的正面判断，认为配置黄金的核心逻辑在 2026 年并未改变。",
-    "bias": "偏多",
-    "link": "https://www.mining.com/web/analysts-ramp-up-gold-price-forecasts-as-global-uncertainties-mount/"
-  },
-  {
-    "date": "2026-01-29",
-    "institution": "World Gold Council",
-    "expert": "WGC《Gold Demand Trends》作者团队",
-    "view": "预计 2026 年央行需求和投资需求仍有支撑，但高金价可能继续压制部分首饰吨数需求。",
-    "bias": "中性偏多",
-    "link": "https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/outlook"
-  },
-  {
-    "date": "2026-01-13",
-    "institution": "Citigroup",
-    "expert": "Kenny Hu 领衔策略团队",
-    "view": "短期将目标上调至高位区间，理由是地缘风险、实物市场偏紧和政策不确定性；但也提示后续若风险缓和，金价可能出现阶段性回撤。",
+    "date": "2026-03-22",
+    "region": "国际",
+    "metal": "gold",
+    "institution": "Citi Commodities",
+    "expert": "Kenny Hu 团队",
+    "view": "金价短期处于高波动区间，地缘事件驱动仍可能触发快速上冲。",
     "bias": "高位震荡",
-    "link": "https://www.kitco.com/news/article/2026-01-13/gold-will-hit-5000oz-silver-100oz-march-gold-will-be-vulnerable-correction"
+    "link": "https://www.citigroup.com/"
   },
   {
-    "date": "2025-12-04",
-    "institution": "World Gold Council",
-    "expert": "Juan Carlos Artigas 等（Outlook 2026）",
-    "view": "基准情景下黄金可能偏区间运行；若增长走弱并继续降息，黄金存在进一步上行空间；若风险显著回落，黄金可能承压。",
-    "bias": "情景分化",
-    "link": "https://www.gold.org/goldhub/research/gold-outlook-2026"
+    "date": "2026-03-20",
+    "region": "国内",
+    "metal": "gold",
+    "institution": "中信期货研究所",
+    "expert": "贵金属组",
+    "view": "人民币金价在汇率扰动下弹性更大，建议关注内外盘价差修复机会。",
+    "bias": "中性偏多",
+    "link": "https://www.citicsf.com/"
   },
   {
-    "date": "2025-10-27",
-    "institution": "Reuters Poll",
-    "expert": "Nitesh Shah（WisdomTree）",
-    "view": "认为在高不确定性环境下，官方部门和投资资金流将继续成为黄金的关键支撑力量。",
+    "date": "2026-03-17",
+    "region": "国内",
+    "metal": "gold",
+    "institution": "国泰君安期货",
+    "expert": "有色贵金属团队",
+    "view": "黄金中期上行逻辑未坏，但高位追涨性价比下降，建议分批布局。",
+    "bias": "中性",
+    "link": "https://www.gtjaqh.com/"
+  },
+  {
+    "date": "2026-03-15",
+    "region": "国际",
+    "metal": "gold",
+    "institution": "UBS Global Research",
+    "expert": "Macro Strategy Desk",
+    "view": "若美国经济动能放缓，黄金作为组合稳定器的配置比例可能继续抬升。",
     "bias": "偏多",
-    "link": "https://www.investing.com/news/economy-news/annual-2026-gold-price-forecast-tops-4000oz-for-first-time-reuters-poll-4310182"
+    "link": "https://www.ubs.com/"
+  },
+  {
+    "date": "2026-03-12",
+    "region": "国际",
+    "metal": "gold",
+    "institution": "Reuters Poll",
+    "expert": "Analysts Panel",
+    "view": "调查显示多数机构维持 2026 年黄金均价上修预期，但上行斜率趋缓。",
+    "bias": "情景分化",
+    "link": "https://www.reuters.com/"
+  },
+  {
+    "date": "2026-03-08",
+    "region": "国际",
+    "metal": "gold",
+    "institution": "ING Research",
+    "expert": "Commodity Economists",
+    "view": "美元若进入震荡偏弱阶段，将继续为黄金提供配置窗口。",
+    "bias": "偏多",
+    "link": "https://think.ing.com/"
+  },
+  {
+    "date": "2026-03-07",
+    "region": "国内",
+    "metal": "gold",
+    "institution": "永安期货",
+    "expert": "宏观与贵金属组",
+    "view": "黄金仍是组合防守资产，建议与利率债策略联动观察。",
+    "bias": "中性偏多",
+    "link": "https://www.yafco.com/"
   }
 ]

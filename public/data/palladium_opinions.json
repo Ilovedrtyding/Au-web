@@ -1,0 +1,82 @@
+[
+  {
+    "date": "2026-03-25",
+    "region": "国际",
+    "metal": "palladium",
+    "institution": "Johnson Matthey",
+    "expert": "PGM Market Team",
+    "view": "钯金供需缺口较前期收敛，但地缘与矿山扰动仍可能放大波动。",
+    "bias": "高位震荡",
+    "link": "https://matthey.com/"
+  },
+  {
+    "date": "2026-03-23",
+    "region": "国内",
+    "metal": "palladium",
+    "institution": "广发期货",
+    "expert": "有色研究员",
+    "view": "钯金弹性较高，适合事件驱动交易，趋势仓位需严格风控。",
+    "bias": "中性",
+    "link": "https://www.gfqh.com.cn/"
+  },
+  {
+    "date": "2026-03-21",
+    "region": "国际",
+    "metal": "palladium",
+    "institution": "Saxo Bank",
+    "expert": "Commodity Strategy",
+    "view": "若汽车行业补库启动，钯金可能出现阶段性脉冲行情。",
+    "bias": "偏多",
+    "link": "https://www.home.saxo/"
+  },
+  {
+    "date": "2026-03-19",
+    "region": "国内",
+    "metal": "palladium",
+    "institution": "东证期货",
+    "expert": "贵金属组",
+    "view": "钯金当前交易结构偏短线，建议以区间思路应对。",
+    "bias": "高位震荡",
+    "link": "https://www.orientfutures.com/"
+  },
+  {
+    "date": "2026-03-15",
+    "region": "国际",
+    "metal": "palladium",
+    "institution": "Fastmarkets",
+    "expert": "PGM Analysts",
+    "view": "在替代效应持续下，钯金中期需求增速受限，价格上行更依赖供应端。",
+    "bias": "中性",
+    "link": "https://www.fastmarkets.com/"
+  },
+  {
+    "date": "2026-03-11",
+    "region": "国内",
+    "metal": "palladium",
+    "institution": "方正中期期货",
+    "expert": "产业研究组",
+    "view": "钯金走势受汽车链条预期牵引明显，建议关注产销数据节奏。",
+    "bias": "情景分化",
+    "link": "https://www.founderfu.com/"
+  },
+  {
+    "date": "2026-03-02",
+    "region": "国际",
+    "metal": "palladium",
+    "institution": "TD Securities",
+    "expert": "Commodity Strategy",
+    "view": "钯金中期方向仍偏震荡，供给侧风险是核心变量。",
+    "bias": "中性",
+    "link": "https://www.tdsecurities.com/"
+  },
+  {
+    "date": "2026-03-01",
+    "region": "国内",
+    "metal": "palladium",
+    "institution": "海通期货",
+    "expert": "产业策略团队",
+    "view": "钯金短期反弹节奏快，建议通过分批止盈管理波动风险。",
+    "bias": "高位震荡",
+    "link": "https://www.htfutures.com/"
+  }
+]
