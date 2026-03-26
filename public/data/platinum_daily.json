@@ -2,13 +2,13 @@
   {
     "date": "2026-03-26",
     "open": 1095.7495,
-    "close": 1095.3784,
+    "close": 1921,
     "low": 1092.3198,
-    "high": 1099.1525,
-    "average": 1095.6037,
-    "points": 291,
-    "delta": -0.3711,
-    "deltaPercent": -0.03
+    "high": 1921,
+    "average": 1098.1121,
+    "points": 326,
+    "delta": 825.2505,
+    "deltaPercent": 75.31
   },
   {
     "date": "2026-03-25",
