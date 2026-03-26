@@ -2,6 +2,7 @@
   {
     "date": "2026-03-26",
     "open": 4497.899902,
+<<<<<<< HEAD
     "close": 4516,
     "low": 4497.899902,
     "high": 4537.200195,
@@ -9,6 +10,15 @@
     "points": 230,
     "delta": 18.1,
     "deltaPercent": 0.4
+=======
+    "close": 4519.100098,
+    "low": 4497.899902,
+    "high": 4537.200195,
+    "average": 4526.3997,
+    "points": 220,
+    "delta": 21.2002,
+    "deltaPercent": 0.47
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
   },
   {
     "date": "2026-03-25",
@@ -16,9 +26,9 @@
     "close": 4497.899902,
     "low": 2441.45,
     "high": 4582.600098,
-    "average": 3712.93,
+    "average": 3712.9294,
     "points": 1440,
-    "delta": 2056.45,
+    "delta": 2056.4499,
     "deltaPercent": 84.23
   },
   {
@@ -27,7 +37,7 @@
     "close": 2441.42,
     "low": 2429.59,
     "high": 2448.56,
-    "average": 2438.67,
+    "average": 2438.6729,
     "points": 865,
     "delta": -2.08,
     "deltaPercent": -0.09
@@ -93,7 +103,7 @@
     "close": 2432.93,
     "low": 2422.12,
     "high": 2444.93,
-    "average": 2433.53,
+    "average": 2433.525,
     "points": 4,
     "delta": 10.81,
     "deltaPercent": 0.45
@@ -104,7 +114,7 @@
     "close": 2434.12,
     "low": 2423.29,
     "high": 2446.12,
-    "average": 2434.7,
+    "average": 2434.705,
     "points": 4,
     "delta": 10.83,
     "deltaPercent": 0.45
@@ -115,7 +125,7 @@
     "close": 2435.29,
     "low": 2424.44,
     "high": 2447.29,
-    "average": 2435.86,
+    "average": 2435.865,
     "points": 4,
     "delta": 10.85,
     "deltaPercent": 0.45
@@ -148,7 +158,7 @@
     "close": 2438.7,
     "low": 2427.79,
     "high": 2450.7,
-    "average": 2439.24,
+    "average": 2439.245,
     "points": 4,
     "delta": 10.91,
     "deltaPercent": 0.45
@@ -181,7 +191,7 @@
     "close": 2441.89,
     "low": 2430.9,
     "high": 2453.89,
-    "average": 2442.39,
+    "average": 2442.395,
     "points": 4,
     "delta": 10.99,
     "deltaPercent": 0.45
@@ -203,7 +213,7 @@
     "close": 2443.88,
     "low": 2432.83,
     "high": 2455.88,
-    "average": 2444.36,
+    "average": 2444.355,
     "points": 4,
     "delta": 11.05,
     "deltaPercent": 0.45
@@ -214,7 +224,7 @@
     "close": 2444.83,
     "low": 2433.74,
     "high": 2456.83,
-    "average": 2445.28,
+    "average": 2445.285,
     "points": 4,
     "delta": 11.09,
     "deltaPercent": 0.46
@@ -225,7 +235,7 @@
     "close": 2445.74,
     "low": 2434.61,
     "high": 2457.74,
-    "average": 2446.18,
+    "average": 2446.175,
     "points": 4,
     "delta": 11.13,
     "deltaPercent": 0.46
@@ -236,7 +246,7 @@
     "close": 2446.61,
     "low": 2435.44,
     "high": 2458.61,
-    "average": 2447.03,
+    "average": 2447.025,
     "points": 4,
     "delta": 11.17,
     "deltaPercent": 0.46
@@ -258,7 +268,7 @@
     "close": 2448.24,
     "low": 2436.99,
     "high": 2460.24,
-    "average": 2448.61,
+    "average": 2448.615,
     "points": 4,
     "delta": 11.25,
     "deltaPercent": 0.46
@@ -269,7 +279,7 @@
     "close": 2448.99,
     "low": 2437.7,
     "high": 2460.99,
-    "average": 2449.34,
+    "average": 2449.345,
     "points": 4,
     "delta": 11.29,
     "deltaPercent": 0.46
@@ -280,7 +290,7 @@
     "close": 2449.7,
     "low": 2438.37,
     "high": 2461.7,
-    "average": 2450.03,
+    "average": 2450.035,
     "points": 4,
     "delta": 11.33,
     "deltaPercent": 0.46
@@ -302,7 +312,7 @@
     "close": 2450.99,
     "low": 2439.56,
     "high": 2462.99,
-    "average": 2451.27,
+    "average": 2451.275,
     "points": 4,
     "delta": 11.43,
     "deltaPercent": 0.47
@@ -324,7 +334,7 @@
     "close": 2452.08,
     "low": 2440.55,
     "high": 2464.08,
-    "average": 2452.32,
+    "average": 2452.315,
     "points": 4,
     "delta": 11.53,
     "deltaPercent": 0.47
@@ -346,7 +356,7 @@
     "close": 2452.97,
     "low": 2441.34,
     "high": 2464.97,
-    "average": 2453.15,
+    "average": 2453.155,
     "points": 4,
     "delta": 11.63,
     "deltaPercent": 0.48
@@ -357,7 +367,7 @@
     "close": 2453.34,
     "low": 2441.65,
     "high": 2465.34,
-    "average": 2453.49,
+    "average": 2453.495,
     "points": 4,
     "delta": 11.69,
     "deltaPercent": 0.48
@@ -390,7 +400,7 @@
     "close": 2454.11,
     "low": 2442.26,
     "high": 2466.11,
-    "average": 2454.19,
+    "average": 2454.185,
     "points": 4,
     "delta": 11.85,
     "deltaPercent": 0.49
@@ -401,7 +411,7 @@
     "close": 2454.26,
     "low": 2442.35,
     "high": 2466.26,
-    "average": 2454.31,
+    "average": 2454.305,
     "points": 4,
     "delta": 11.91,
     "deltaPercent": 0.49
@@ -412,7 +422,7 @@
     "close": 2454.35,
     "low": 2442.38,
     "high": 2466.35,
-    "average": 2454.37,
+    "average": 2454.365,
     "points": 4,
     "delta": 11.97,
     "deltaPercent": 0.49
@@ -434,7 +444,7 @@
     "close": 2454.36,
     "low": 2442.27,
     "high": 2466.36,
-    "average": 2454.32,
+    "average": 2454.315,
     "points": 4,
     "delta": 12.09,
     "deltaPercent": 0.5
@@ -445,7 +455,7 @@
     "close": 2454.27,
     "low": 2442.12,
     "high": 2466.27,
-    "average": 2454.2,
+    "average": 2454.195,
     "points": 4,
     "delta": 12.15,
     "deltaPercent": 0.5
@@ -467,7 +477,7 @@
     "close": 2453.92,
     "low": 2441.65,
     "high": 2465.92,
-    "average": 2453.78,
+    "average": 2453.785,
     "points": 4,
     "delta": 12.27,
     "deltaPercent": 0.5
@@ -478,7 +488,7 @@
     "close": 2453.65,
     "low": 2441.32,
     "high": 2465.65,
-    "average": 2453.49,
+    "average": 2453.485,
     "points": 4,
     "delta": 12.33,
     "deltaPercent": 0.51
@@ -489,7 +499,7 @@
     "close": 2453.32,
     "low": 2440.93,
     "high": 2465.32,
-    "average": 2453.13,
+    "average": 2453.125,
     "points": 4,
     "delta": 12.39,
     "deltaPercent": 0.51
@@ -500,7 +510,7 @@
     "close": 2452.93,
     "low": 2440.48,
     "high": 2464.93,
-    "average": 2452.7,
+    "average": 2452.705,
     "points": 4,
     "delta": 12.45,
     "deltaPercent": 0.51
@@ -511,7 +521,7 @@
     "close": 2452.48,
     "low": 2439.97,
     "high": 2464.48,
-    "average": 2452.22,
+    "average": 2452.225,
     "points": 4,
     "delta": 12.51,
     "deltaPercent": 0.51
@@ -522,7 +532,7 @@
     "close": 2451.97,
     "low": 2439.4,
     "high": 2463.97,
-    "average": 2451.68,
+    "average": 2451.685,
     "points": 4,
     "delta": 12.57,
     "deltaPercent": 0.52
@@ -544,7 +554,7 @@
     "close": 2450.76,
     "low": 2438.07,
     "high": 2462.76,
-    "average": 2450.41,
+    "average": 2450.415,
     "points": 4,
     "delta": 12.69,
     "deltaPercent": 0.52
@@ -566,7 +576,7 @@
     "close": 2449.31,
     "low": 2436.5,
     "high": 2461.31,
-    "average": 2448.9,
+    "average": 2448.905,
     "points": 4,
     "delta": 12.81,
     "deltaPercent": 0.53
@@ -588,7 +598,7 @@
     "close": 2447.62,
     "low": 2434.69,
     "high": 2459.62,
-    "average": 2447.15,
+    "average": 2447.155,
     "points": 4,
     "delta": 12.93,
     "deltaPercent": 0.53
@@ -610,7 +620,7 @@
     "close": 2445.69,
     "low": 2432.64,
     "high": 2457.69,
-    "average": 2445.16,
+    "average": 2445.165,
     "points": 4,
     "delta": 13.05,
     "deltaPercent": 0.54
@@ -621,7 +631,7 @@
     "close": 2444.64,
     "low": 2431.53,
     "high": 2456.64,
-    "average": 2444.09,
+    "average": 2444.085,
     "points": 4,
     "delta": 13.11,
     "deltaPercent": 0.54

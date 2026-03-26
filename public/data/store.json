@@ -43202,6 +43202,7 @@
     },
     {
       "fetched_at": "2026-03-26T03:39:00.000Z",
+<<<<<<< HEAD
       "price": 4537.200195,
       "source": "carry-forward",
       "source_mode": "derived",
@@ -43287,6 +43288,14 @@
       "source_mode": "api",
       "currency": "USD",
       "unit": "oz"
+=======
+      "price": 4519.100098,
+      "source": "api.gold-api.com",
+      "source_mode": "api",
+      "currency": "USD",
+      "unit": "oz",
+      "metal": "gold"
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
     }
   ]
 }

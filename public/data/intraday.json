@@ -1,5 +1,80 @@
 [
   {
+<<<<<<< HEAD
+=======
+    "fetched_at": "2026-03-25T03:41:00.000Z",
+    "price": 2452.04,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:42:00.000Z",
+    "price": 2452.01,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:43:00.000Z",
+    "price": 2451.97,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:44:00.000Z",
+    "price": 2451.94,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:45:00.000Z",
+    "price": 2451.91,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:46:00.000Z",
+    "price": 2451.89,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:47:00.000Z",
+    "price": 2451.87,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:48:00.000Z",
+    "price": 2451.85,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+    "fetched_at": "2026-03-25T03:49:00.000Z",
+    "price": 2451.83,
+    "source": "seeded-history",
+    "source_mode": "seed",
+    "currency": "USD",
+    "unit": "oz"
+  },
+  {
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
     "fetched_at": "2026-03-25T03:50:00.000Z",
     "price": 2451.82,
     "source": "seeded-history",
@@ -11433,6 +11508,7 @@
   },
   {
     "fetched_at": "2026-03-26T03:39:00.000Z",
+<<<<<<< HEAD
     "price": 4537.200195,
     "source": "carry-forward",
     "source_mode": "derived",
@@ -11518,5 +11594,13 @@
     "source_mode": "api",
     "currency": "USD",
     "unit": "oz"
+=======
+    "price": 4519.100098,
+    "source": "api.gold-api.com",
+    "source_mode": "api",
+    "currency": "USD",
+    "unit": "oz",
+    "metal": "gold"
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
   }
 ]

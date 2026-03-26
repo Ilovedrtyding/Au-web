@@ -1,15 +1,26 @@
 {
   "latest": {
+<<<<<<< HEAD
     "fetched_at": "2026-03-26T03:49:00.000Z",
     "price": 4516,
+=======
+    "fetched_at": "2026-03-26T03:39:00.000Z",
+    "price": 4519.100098,
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
     "source": "api.gold-api.com",
     "source_mode": "api",
     "currency": "USD",
-    "unit": "oz"
+    "unit": "oz",
+    "metal": "gold"
   },
   "change24h": {
+<<<<<<< HEAD
     "absolute": 2064.17,
     "percent": 84.19
+=======
+    "absolute": 2066.9801,
+    "percent": 84.29
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
   },
   "dailyRange": {
     "low": 2449.62,

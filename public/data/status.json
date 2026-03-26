@@ -1,7 +1,14 @@
 {
+<<<<<<< HEAD
   "totalSnapshots": 5411,
   "firstSnapshotAt": "2024-04-03T15:35:11.500Z",
   "latestSnapshotAt": "2026-03-26T03:49:00.000Z",
+=======
+  "metal": "gold",
+  "totalSnapshots": 5401,
+  "firstSnapshotAt": "2024-04-03T15:35:11.500Z",
+  "latestSnapshotAt": "2026-03-26T03:39:00.000Z",
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
   "refreshIntervalMinutes": 5,
   "clientRefreshMinutes": 1,
   "deploymentMode": "static-vercel"

@@ -116,7 +116,12 @@
   },
   {
     "bucket": "2026-03",
+<<<<<<< HEAD
     "fetched_at": "2026-03-26T03:49:00.000Z",
     "price": 4516
+=======
+    "fetched_at": "2026-03-26T03:39:00.000Z",
+    "price": 4519.100098
+>>>>>>> 7d48bb9 (Add welcome page plus gold and silver sub-pages)
   }
 ]
