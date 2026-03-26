@@ -39149,15 +39149,6 @@
       "currency": "USD",
       "unit": "oz",
       "metal": "platinum"
-    },
-    {
-      "fetched_at": "2026-03-26T05:25:00.000Z",
-      "price": 1921,
-      "source": "api.gold-api.com",
-      "source_mode": "api",
-      "currency": "USD",
-      "unit": "oz",
-      "metal": "platinum"
     }
   ]
 }

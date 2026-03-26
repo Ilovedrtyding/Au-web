@@ -1,16 +1,16 @@
 {
   "latest": {
-    "fetched_at": "2026-03-26T05:25:00.000Z",
-    "price": 71.083,
-    "source": "api.gold-api.com",
-    "source_mode": "api",
+    "fetched_at": "2026-03-26T05:24:00.000Z",
+    "price": 71.983002,
+    "source": "carry-forward",
+    "source_mode": "derived",
     "currency": "USD",
     "unit": "oz",
     "metal": "silver"
   },
   "change24h": {
-    "absolute": 39.0993,
-    "percent": 122.25
+    "absolute": 39.9926,
+    "percent": 125.01
   },
   "dailyRange": {
     "low": 31.6545,

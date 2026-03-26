@@ -1,8 +1,8 @@
 {
   "metal": "silver",
-  "totalSnapshots": 4422,
+  "totalSnapshots": 4421,
   "firstSnapshotAt": "2024-04-04T09:40:13.030Z",
-  "latestSnapshotAt": "2026-03-26T05:25:00.000Z",
+  "latestSnapshotAt": "2026-03-26T05:24:00.000Z",
   "refreshIntervalMinutes": 1,
   "clientRefreshMinutes": 1,
   "deploymentMode": "static-vercel"

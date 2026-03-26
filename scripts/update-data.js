@@ -43,6 +43,7 @@ function getConfig(metal) {
       minuteWave: 4.8,
       hourWave: 8.5,
       drift: 0.012,
+      maxApiDeviation: 0.22,
       unit: 'oz',
       currency: 'USD'
     },
@@ -57,6 +58,7 @@ function getConfig(metal) {
       minuteWave: 0.35,
       hourWave: 0.55,
       drift: 0.004,
+      maxApiDeviation: 0.3,
       unit: 'oz',
       currency: 'USD'
     },
@@ -71,6 +73,7 @@ function getConfig(metal) {
       minuteWave: 2.6,
       hourWave: 4.8,
       drift: 0.006,
+      maxApiDeviation: 0.32,
       unit: 'oz',
       currency: 'USD'
     },
@@ -85,6 +88,7 @@ function getConfig(metal) {
       minuteWave: 3.8,
       hourWave: 7.2,
       drift: 0.008,
+      maxApiDeviation: 0.35,
       unit: 'oz',
       currency: 'USD'
     }
@@ -266,6 +270,54 @@ function buildSummary(snapshots) {
   };
 }
 
+function median(values) {
+  if (!values.length) return null;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2 === 0) {
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+  return sorted[mid];
+}
+
+function isAnomalousAgainstBaseline(price, baseline, maxDeviation) {
+  if (!baseline || baseline <= 0) return false;
+  const deviation = Math.abs(price - baseline) / baseline;
+  return deviation > maxDeviation;
+}
+
+function validateIncomingPoint(config, snapshots, latestPoint) {
+  const recentWindow = snapshots.slice(-360).map((row) => Number(row.price)).filter(Number.isFinite);
+  const baseline = median(recentWindow);
+  if (isAnomalousAgainstBaseline(latestPoint.price, baseline, config.maxApiDeviation)) {
+    console.warn(
+      `[${config.symbol}] incoming point rejected as anomaly: price=${latestPoint.price}, baseline=${baseline?.toFixed(4)}`
+    );
+    return null;
+  }
+  return latestPoint;
+}
+
+function pruneTailAnomalies(config, snapshots) {
+  const rows = [...snapshots];
+  let removed = 0;
+
+  while (rows.length > 500) {
+    const last = rows[rows.length - 1];
+    if (!last || last.source_mode !== 'api') break;
+    const baselineWindow = rows.slice(-241, -1).map((row) => Number(row.price)).filter(Number.isFinite);
+    const baseline = median(baselineWindow);
+    if (!isAnomalousAgainstBaseline(last.price, baseline, config.maxApiDeviation)) break;
+    rows.pop();
+    removed += 1;
+  }
+
+  if (removed > 0) {
+    console.warn(`[${config.symbol}] pruned ${removed} anomalous tail point(s) from store`);
+  }
+  return rows;
+}
+
 function buildStatus(snapshots, metalLabel) {
   return {
     metal: metalLabel,
@@ -301,10 +353,14 @@ async function processCommodity(metal) {
   const store = readJson(paths.store, { snapshots: generateSeedSnapshots(config) });
   let snapshots = Array.isArray(store.snapshots) ? store.snapshots : generateSeedSnapshots(config);
   snapshots.sort((a, b) => new Date(a.fetched_at) - new Date(b.fetched_at));
+  snapshots = pruneTailAnomalies(config, snapshots);
 
   try {
     const latestPoint = await fetchCurrentPrice(config);
-    snapshots = ensureMinuteContinuity(snapshots, latestPoint);
+    const acceptedPoint = validateIncomingPoint(config, snapshots, latestPoint);
+    if (acceptedPoint) {
+      snapshots = ensureMinuteContinuity(snapshots, acceptedPoint);
+    }
   } catch (error) {
     console.warn(`[${config.symbol}] fetch failed, keeping existing data: ${error.message}`);
   }
@@ -398,4 +454,6 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
+
 

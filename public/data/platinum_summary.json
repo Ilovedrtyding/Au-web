@@ -1,20 +1,20 @@
 {
   "latest": {
-    "fetched_at": "2026-03-26T05:25:00.000Z",
-    "price": 1921,
-    "source": "api.gold-api.com",
-    "source_mode": "api",
+    "fetched_at": "2026-03-26T05:24:00.000Z",
+    "price": 1095.3784,
+    "source": "carry-forward",
+    "source_mode": "derived",
     "currency": "USD",
     "unit": "oz",
     "metal": "platinum"
   },
   "change24h": {
-    "absolute": 829.0145,
-    "percent": 75.92
+    "absolute": 3.4374,
+    "percent": 0.31
   },
   "dailyRange": {
     "low": 1081.7345,
-    "high": 1921
+    "high": 1099.1525
   },
   "nextRefreshMinutes": 1
 }
