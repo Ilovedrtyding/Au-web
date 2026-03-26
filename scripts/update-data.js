@@ -154,7 +154,82 @@ function generateSeedSnapshots(config) {
   return snapshots;
 }
 
-async function fetchCurrentPrice(config) {
+function parseTimestamp(value) {
+  if (!value) return new Date();
+  const parsed = new Date(value);
+  if (!Number.isNaN(parsed.getTime())) return parsed;
+  const asNumber = Number(value);
+  if (!Number.isNaN(asNumber) && asNumber > 0) {
+    return new Date(asNumber * 1000);
+  }
+  return new Date();
+}
+
+function pickNumeric(value, keys) {
+  if (!value || typeof value !== 'object') return null;
+  for (const key of keys) {
+    const num = Number(value[key]);
+    if (!Number.isNaN(num) && Number.isFinite(num)) return num;
+  }
+  return null;
+}
+
+async function fetchFromAlapiGold(config) {
+  if (config.metal !== 'gold') throw new Error('ALAPI gold endpoint only supports gold');
+  const token = process.env.ALAPI_TOKEN;
+  if (!token) throw new Error('ALAPI_TOKEN not set');
+
+  const response = await axios.get('https://v3.alapi.cn/api/gold', {
+    headers: DEFAULT_HEADERS,
+    timeout: 15000,
+    params: { token, market: 'LF' }
+  });
+
+  if (!response.data) {
+    throw new Error('ALAPI did not return payload');
+  }
+
+  const payload = response.data.data ?? response.data;
+  let entry = payload;
+  if (Array.isArray(payload)) {
+    const prefer = process.env.ALAPI_GOLD_TYPE;
+    if (prefer) {
+      entry = payload.find((item) => [item.name, item.type, item.title, item.brand, item.symbol].includes(prefer)) || payload[0];
+    } else {
+      entry = payload.find((item) => {
+        const unit = (item.unit || item.units || '').toString().toLowerCase();
+        const currency = (item.currency || item.money || item.currency_code || '').toString().toUpperCase();
+        return (currency === 'USD' || currency === '$') && (unit.includes('oz') || unit.includes('ounce'));
+      }) || payload[0];
+    }
+  }
+
+  const price = pickNumeric(entry, ['price', 'now_price', 'new_price', 'last_price', 'latest_price', 'latest', 'value', 'price_usd', 'usd_price']);
+  if (!Number.isFinite(price)) {
+    throw new Error('ALAPI did not provide numeric price');
+  }
+
+  const unit = (entry.unit || entry.units || '').toString().toLowerCase();
+  const currency = (entry.currency || entry.money || entry.currency_code || 'USD').toString().toUpperCase();
+  if (currency !== 'USD' && currency !== '$') {
+    throw new Error(`ALAPI currency not USD: ${currency}`);
+  }
+  if (unit && !(unit.includes('oz') || unit.includes('ounce'))) {
+    throw new Error(`ALAPI unit not oz: ${unit}`);
+  }
+
+  return {
+    fetched_at: isoMinute(parseTimestamp(entry.time || entry.timestamp || entry.updated_at || new Date())),
+    price: Number(price),
+    source: 'v3.alapi.cn',
+    source_mode: 'api',
+    currency: 'USD',
+    unit: 'oz',
+    metal: config.metal
+  };
+}
+
+async function fetchFromGoldApiDotCom(config) {
   const response = await axios.get(`https://api.gold-api.com/price/${config.symbol}`, {
     headers: DEFAULT_HEADERS,
     timeout: 15000
@@ -173,6 +248,24 @@ async function fetchCurrentPrice(config) {
     unit: config.unit,
     metal: config.metal
   };
+}
+
+async function fetchCurrentPrice(config) {
+  const preferred = (process.env.PRICE_SOURCE_MODE || 'alapi').toLowerCase();
+  const order = preferred === 'goldapi_com'
+    ? [fetchFromGoldApiDotCom, fetchFromAlapiGold]
+    : [fetchFromAlapiGold, fetchFromGoldApiDotCom];
+
+  let lastError = null;
+  for (const attempt of order) {
+    try {
+      return await attempt(config);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error('No price source available.');
 }
 
 function ensureMinuteContinuity(snapshots, latestPoint) {
@@ -454,6 +547,3 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
-
-
-

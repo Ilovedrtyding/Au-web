@@ -25,6 +25,9 @@ jobs:
         run: npm ci
 
       - name: Update metals and market advice data
+        env:
+          ALAPI_TOKEN: ${{ secrets.ALAPI_TOKEN }}
+          PRICE_SOURCE_MODE: alapi
         run: npm run update:data
 
       - name: Commit updated data

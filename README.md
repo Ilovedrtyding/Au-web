@@ -12,6 +12,20 @@
 
 说明：市场建议目前是“自动定时更新的数据文件”，不是实时新闻流。
 
+## 数据源配置（免费版）
+
+当前保留原有结构，新增免费 ALAPI 作为主源，仅黄金使用：
+
+优先顺序：`ALAPI -> gold-api.com`
+
+环境变量：
+
+- `ALAPI_TOKEN`：ALAPI Token
+- `ALAPI_GOLD_TYPE`：可选，用于指定 ALAPI 返回数组中的品类名称
+- `PRICE_SOURCE_MODE`：可选，`alapi` 或 `goldapi_com`
+
+注意：系统只接受 USD/oz 单位的价格，若返回币种或单位不匹配将自动跳过。
+
 ## 部署方式
 
 - 前端：Vercel 静态部署（读取 `public`）
