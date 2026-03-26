@@ -1,23 +1,5 @@
 [
   {
-    "fetched_at": "2026-03-25T05:26:00.000Z",
-    "price": 2446.3894,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "gold"
-  },
-  {
-    "fetched_at": "2026-03-25T05:27:00.000Z",
-    "price": 2446.502,
-    "source": "seeded-history",
-    "source_mode": "seed",
-    "currency": "USD",
-    "unit": "oz",
-    "metal": "gold"
-  },
-  {
     "fetched_at": "2026-03-25T05:28:00.000Z",
     "price": 2446.6123,
     "source": "seeded-history",

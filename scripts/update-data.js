@@ -345,6 +345,16 @@ function seedMarketAdvice() {
 
     { date: '2026-03-08', region: '国际', metal: 'gold', institution: 'ING Research', expert: 'Commodity Economists', view: '美元若进入震荡偏弱阶段，将继续为黄金提供配置窗口。', bias: '偏多', link: 'https://think.ing.com/' },
     { date: '2026-03-07', region: '国内', metal: 'gold', institution: '永安期货', expert: '宏观与贵金属组', view: '黄金仍是组合防守资产，建议与利率债策略联动观察。', bias: '中性偏多', link: 'https://www.yafco.com/' },
+    { date: '2026-02-28', region: '国内', metal: 'gold', institution: '中金公司研究部', expert: '大类资产团队', view: '黄金在全球不确定性提升阶段具备组合稳定作用，建议作为中长期配置底仓。', bias: '偏多', link: 'https://www.cicc.com/' },
+    { date: '2026-02-24', region: '国内', metal: 'gold', institution: '中信建投期货', expert: '贵金属策略组', view: '若美债实际利率下行延续，黄金价格中枢仍有抬升空间。', bias: '中性偏多', link: 'https://www.cfc108.com/' },
+    { date: '2026-02-19', region: '国内', metal: 'gold', institution: '光大期货', expert: '有色与贵金属组', view: '短线黄金可能维持高位震荡，建议逢回调分批布局而非追高。', bias: '高位震荡', link: 'https://www.ebfcn.com/' },
+    { date: '2026-02-15', region: '国内', metal: 'gold', institution: '广发期货研究中心', expert: '宏观商品组', view: '黄金仍受避险需求支撑，关注人民币汇率对内盘金价弹性的放大效应。', bias: '偏多', link: 'https://www.gfqh.cn/' },
+    { date: '2026-02-10', region: '国内', metal: 'gold', institution: '一德期货', expert: '贵金属分析师', view: '黄金中期逻辑偏多不变，但建议通过仓位管理应对事件驱动波动。', bias: '中性偏多', link: 'https://www.ydfut.com/' },
+    { date: '2026-02-06', region: '国内', metal: 'gold', institution: '华安期货', expert: '金属研究中心', view: '在外部风险抬头背景下，黄金仍有防御价值，节奏上关注政策预期变化。', bias: '中性', link: 'https://www.hafco.com/' },
+    { date: '2026-02-02', region: '国内', metal: 'gold', institution: '浙商期货', expert: '贵金属团队', view: '黄金波动率抬升阶段更适合分段交易，趋势单需设置动态止盈。', bias: '高位震荡', link: 'https://www.cnzsqh.com/' },
+    { date: '2026-01-29', region: '国内', metal: 'gold', institution: '国信期货', expert: '有色与贵金属组', view: '金价对美元和实际利率敏感度仍高，建议联动宏观数据做方向确认。', bias: '中性', link: 'https://www.guosenqh.com.cn/' },
+    { date: '2026-01-23', region: '国内', metal: 'gold', institution: '东吴期货', expert: '商品研究部', view: '黄金回撤幅度可控时，配置性资金大概率继续入场，支撑中期趋势。', bias: '中性偏多', link: 'https://www.dwfutures.com/' },
+    { date: '2026-01-18', region: '国内', metal: 'gold', institution: '新湖期货', expert: '贵金属研究员', view: '黄金在地缘与流动性双因素扰动下，短期或反复但中期重心仍偏上。', bias: '偏多', link: 'https://www.xinhu.cn/' },
     { date: '2026-03-06', region: '国际', metal: 'silver', institution: 'Morgan Stanley', expert: 'Global Metals Team', view: '白银需等待工业需求确认后再打开新一轮趋势空间。', bias: '中性', link: 'https://www.morganstanley.com/' },
     { date: '2026-03-05', region: '国内', metal: 'silver', institution: '国投安信期货', expert: '商品研究部', view: '若制造业景气回升，白银回调后的配置价值会更明显。', bias: '中性偏多', link: 'https://www.sdicessence.com.cn/' },
     { date: '2026-03-04', region: '国际', metal: 'platinum', institution: 'Reuters Commodities', expert: 'Market Desk', view: '铂金在贵金属中估值相对不高，具备中期修复潜力。', bias: '偏多', link: 'https://www.reuters.com/' },
@@ -388,3 +398,4 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
